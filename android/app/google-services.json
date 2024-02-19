@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "152286352998",
+    "project_id": "parctice-f8ca0",
+    "storage_bucket": "parctice-f8ca0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152286352998:android:f9b562e0e5d8db2573ffa7",
+        "android_client_info": {
+          "package_name": "com.example.pratice"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHPX5qa7Yd9LirSoXEF9g5R0EnM_ZMCTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
