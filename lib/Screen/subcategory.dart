@@ -13,7 +13,7 @@ class Sub_Category extends StatefulWidget {
 }
 
 class _Sub_CategoryState extends State<Sub_Category> {
-  String Course = 'Select Category';//dropdown
+  String Categoty = 'Select Category';//dropdown
  List<String> options = [
     'Select Category',
     'Hoodie','Shoes'
@@ -37,7 +37,7 @@ class _Sub_CategoryState extends State<Sub_Category> {
         imageurl = await ref.getDownloadURL();
         print("Image Url:$imageurl");
         FirebaseFirestore.instance.collection("Sub-Category").add({
-          "Category_Name": Course.trim().toString(),
+          "Category_Name": Categoty.trim().toString(),
           "Sub_Category":name.text.trim().toString(),
           "Image": imageurl
         }).then((value) {
@@ -73,10 +73,11 @@ class _Sub_CategoryState extends State<Sub_Category> {
               children: [
                  Expanded(
                    child: DropdownButton<String>(
-                    value: Course,
+                    value: Categoty,
                     onChanged: (String? newValue) {
                       setState(() {
-                        Course = newValue!;
+                        Categoty = newValue!;
+                        print(Categoty);
                       });
                     },
                     items: options
@@ -107,7 +108,7 @@ class _Sub_CategoryState extends State<Sub_Category> {
                       TextField(
                         controller: name,
                         decoration: InputDecoration(
-                          hintText: "Enter Name",
+                          hintText: "Enter Sub-Category  Name",
                           hintStyle: const TextStyle(
                               fontSize: 20,
                               color: Colors.indigo,
