@@ -22,10 +22,10 @@ User? user=FirebaseAuth.instance.currentUser;
   }
 void currentuser(){
     if(user==null){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login(),));
     }
     else{
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Home(),));
     }
 }
   @override

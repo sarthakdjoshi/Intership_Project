@@ -83,7 +83,7 @@ class _Category_ScreenState extends State<Category_Screen> {
                       return Card(
                         child: Column(
                           children: [
-                            Text(user.Category_Name,style: TextStyle(fontSize: 25,color: Colors.indigo),),
+                            Text(user.Category_Name,style: const TextStyle(fontSize: 25,color: Colors.indigo),),
                             Image(image: NetworkImage(user.Image),width: 200,height: 200,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

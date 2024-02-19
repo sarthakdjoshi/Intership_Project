@@ -75,7 +75,7 @@ class _LoginState extends State<Login> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Home(),
+                                builder: (context) => const Home(),
                               ));
                         } on FirebaseAuthException catch (e) {
                           print(e.code.toString());

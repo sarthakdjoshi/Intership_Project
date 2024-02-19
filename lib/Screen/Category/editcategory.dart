@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,7 +48,7 @@ class _Edit_CategoryState extends State<Edit_Category> {
           setState(() {
             isloading = false;
           });
-          Navigator.push(context,MaterialPageRoute(builder:  (context) => Category_Screen(),));
+          Navigator.push(context,MaterialPageRoute(builder:  (context) => const Category_Screen(),));
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Category Updated SucessFully"),
             duration: Duration(seconds: 2),
