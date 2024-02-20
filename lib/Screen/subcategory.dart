@@ -66,23 +66,31 @@ class _Sub_CategoryState extends State<Sub_Category> {
         child: Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: DropdownButton<String>(
-                    value: Categoty,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        Categoty = newValue!;
-                        print(Categoty);
-                      });
-                    },
-                    items:
-                        options.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
+                Center(
+                  child: Expanded(
+                    child: DropdownButton<String>(
+                      value: Categoty,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          Categoty = newValue!;
+                          print(Categoty);
+                        });
+                      },
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.indigo,
+                          wordSpacing: 2,
+                          fontWeight: FontWeight.w600),
+                      items:
+                          options.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ],
@@ -167,17 +175,19 @@ class _Sub_CategoryState extends State<Sub_Category> {
                         if (Name.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                  content: Text("Enter Category Name")));
+                                  content: Text("Enter Sub-Category Name")));
                         } else if (profilepic == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Choose Photo")));
                         } else if (Categoty == "Select Category") {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Choose Category")));
+                              const SnackBar(
+                                  content: Text("Choose Sub-Category")));
                         } else {
                           adddata();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Category added With Name=$Name")));
+                              content:
+                                  Text("Sub-Category added With Name=$Name")));
                         }
                       },
                       style: ElevatedButton.styleFrom(
