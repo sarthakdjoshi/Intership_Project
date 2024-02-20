@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
                 color: Colors.indigo,
                 fontWeight: FontWeight.w900),
           ),
-          Expanded(
+         Expanded(
               child: GridView.count(
                   crossAxisCount: 2,
                   childAspectRatio: 1.0,

@@ -171,6 +171,9 @@ class _Sub_CategoryState extends State<Sub_Category> {
                         } else if (profilepic == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Choose Photo")));
+                        } else if (Categoty == "Select Category") {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Choose Category")));
                         } else {
                           adddata();
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
