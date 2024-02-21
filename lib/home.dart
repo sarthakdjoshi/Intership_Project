@@ -4,7 +4,7 @@ import 'package:pratice/Screen/allUser.dart';
 import 'package:pratice/Screen/banner.dart';
 import 'package:pratice/Screen/order.dart';
 import 'package:pratice/Screen/product.dart';
-import 'package:pratice/Screen/subcategory.dart';
+import 'package:pratice/Sub-Category/subcategory.dart';
 
 
 class Home extends StatefulWidget {
