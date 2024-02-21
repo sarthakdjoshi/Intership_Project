@@ -29,8 +29,7 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
     // TODO: implement initState
     super.initState();
     name.text=widget.name1.Sub_Category;
-
-  }
+}
   Future<void> UpdateData() async {
     if (profilepic != null) {
       setState(() {
