@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-class CategoryModel{
-  final String id;
+class CategoryModel {
+  final String? id;
   final String Image;
   final String Category_Name;
 
@@ -11,7 +11,8 @@ class CategoryModel{
     required this.Category_Name,
   });
 
-  factory CategoryModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory CategoryModel.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return CategoryModel(
       id: snapshot.id,
@@ -19,6 +20,6 @@ class CategoryModel{
       Image: data['Image'],
     );
   }
-}
 
+}
 

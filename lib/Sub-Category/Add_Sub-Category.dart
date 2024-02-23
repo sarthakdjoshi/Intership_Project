@@ -1,217 +1,269 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 import '../Model/category-model.dart';
 
-class Add_Sub_Category extends StatefulWidget{
-  const Add_Sub_Category({super.key});
+class AddSubCategoryScreen extends StatefulWidget {
+  const AddSubCategoryScreen({super.key});
 
   @override
-  State<Add_Sub_Category> createState() => _Add_Sub_CategoryState();
+  State<AddSubCategoryScreen> createState() => _AddSubCategoryScreenState();
 }
 
-class _Add_Sub_CategoryState extends State<Add_Sub_Category> {
-  CategoryModel? selectedCategory;
-  String Categoty = 'Select Category'; //dropdown
-  List<String> options = ['Select Category', 'Hoodie', 'Shoes'];
-  var name = TextEditingController();
-  File? profilepic;
-  var uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
-  var imageurl = "";
-  bool isloading = false;
+class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
 
-  void adddata() async {
-    if (profilepic != null) {
+  TextEditingController categoryname = TextEditingController();
+  TextEditingController SubCategoryname = TextEditingController();
+
+  String? selectedCategory;
+
+  String uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
+  String imageUrl = '';
+  File? selectedImage;
+  bool isLoading = false;
+
+
+  Future<bool> doesSubCategoryExist(String SubCategoryName) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection("Sub-Category")
+        .where("Sub_Category", isEqualTo: SubCategoryName)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
+  }
+
+  Future<void> addSubCategoryToFirestore() async {
+    final category = selectedCategory;
+    final SubCategory = SubCategoryname .text.trim();
+
+    if (category == null || category.isEmpty) {
+      // Show a toast message if the category is not selected
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please select a Category")),
+      );
+      return; // Stop the function execution
+    }
+
+
+    if (SubCategory.isEmpty) {
+      // Show a toast message if the subcategory name is empty
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please enter a SubCategory name")),
+      );
+      return; // Stop the function execution
+    }
+
+
+    final doesExist = await doesSubCategoryExist(SubCategory);
+
+    if (doesExist) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("SubCategory already exists")),
+      );
+    } else {
       setState(() {
-        isloading = true;
+        isLoading = true;
       });
-      var ref = FirebaseStorage.instance
-          .ref()
-          .child("Category")
-          .child(uniquefilename);
-      try {
-        await ref.putFile(profilepic!);
-        imageurl = await ref.getDownloadURL();
-        print("Image Url:$imageurl");
-        FirebaseFirestore.instance.collection("Sub-Category").add({
-          "Category_Name": Categoty.trim().toString(),
-          "Sub_Category": name.text.trim().toString(),
-          "Image": imageurl
-        }).then((value) {
-          name.clear();
-          profilepic = null;
-          setState(() {
-            isloading = false;
+
+      if (selectedImage != null) {
+        Reference referenceRoot = FirebaseStorage.instance.ref();
+        Reference referenceDirImages = referenceRoot.child('SubCategory_images');
+        Reference referenceImageToUpload = referenceDirImages.child(uniquefilename);
+        try {
+          await referenceImageToUpload.putFile(selectedImage!);
+          imageUrl = await referenceImageToUpload.getDownloadURL();
+          print("Image URL: $imageUrl");
+
+          // Add category to Firestore only if an image is selected
+          FirebaseFirestore.instance.collection("Sub-Category").add({
+            'Category_Name': category,
+            'Sub_Category': SubCategoryname.text,
+            'Image': imageUrl,
+          }).then((value) {
+            SubCategoryname.clear();
+            selectedImage = null;
+            setState(() {
+              isLoading = false;
+            });
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("SubCategory Added Successfully")),
+            );
           });
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Category Added SucessFully"),
-            duration: Duration(seconds: 2),
-          ));
+        } catch (error) {
+          print("Error uploading image: $error");
+        }
+      } else {
+        // Display an error message or take appropriate action
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please select an image")),
+        );
+        setState(() {
+          isLoading = false;
         });
-      } catch (e) {
-        print(e.toString());
       }
     }
   }
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      title: const Text("Add_Sub_Category"),
+        backgroundColor: Colors.deepPurpleAccent,
+        title: const Text('Add SubCategory',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white ),),
+        elevation: 10,
         centerTitle: true,
-        backgroundColor: Colors.indigo,
       ),
-      body: Column(
-        children: [
-          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance.collection("Category").snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Text("Error: ${snapshot.error}");
-              } else {
-                final List<CategoryModel> categories = snapshot.data!.docs.map((doc) => CategoryModel.fromFirestore(doc)).toList();
 
-                return DropdownButton<CategoryModel>(
-                  hint: const Text('Select a category'),
-                  value: selectedCategory,
-                  onChanged: (newValue) {
-                    setState(() {
-                      selectedCategory = newValue!;
-                    });
-                  },
-                  items: categories.map((category) {
-                    return DropdownMenuItem<CategoryModel>(
-                      value: category,
-                      child: Text(category.Category_Name),
-                    );
-                  }).toList(),
-                );
-              }
-            },
-          ),
-          SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text("Add Your  Sub-Category",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.w900)),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextField(
-                      controller: name,
-                      decoration: InputDecoration(
-                        hintText: "Enter Sub-Category  Name",
-                        hintStyle: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.w900),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          child: Column(
+            children: [
+
+
+              const SizedBox(height: 20,),
+
+              CategoryDropdown(
+                selectedCategory: selectedCategory,
+                onChanged: (value) {
+                  setState(() {
+                    selectedCategory = value;
+                  });
+                },
+              ),
+
+
+              const SizedBox(height: 20,),
+
+
+              SizedBox(
+                width: double.infinity,
+                height: 45,
+                child: TextFormField(
+                  controller: SubCategoryname,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(3),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    (profilepic == null)
-                        ? Image.asset("assets/Icons/Images.jpg")
-                        : SizedBox(
-                        width: 200,
-                        height: 200,
-                        child: Image(image: FileImage(profilepic!))),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            try {
-                              XFile? selecetedimage = await ImagePicker()
-                                  .pickImage(source: ImageSource.gallery);
-                              if (selecetedimage != null) {
-                                print("Image");
-                                File cf = File(selecetedimage.path);
-                                setState(() {
-                                  profilepic = cf;
-                                });
-                              } else {
-                                print("No Image");
-                              }
-                            } catch (e) {
-                              print(e.toString());
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ),
-                              backgroundColor: Colors.white70),
-                          child: const Text(
-                            "Choose Your Image",
-                            style: TextStyle(color: Colors.indigo),
-                          )),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          var Name = name.text.trim().toString();
-                          if (Name.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Enter Sub-Category Name")));
-                          } else if (profilepic == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Choose Photo")));
-                          } else if (Categoty == "Select Category") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Choose Sub-Category")));
-                          } else {
-                            adddata();
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content:
-                                Text("Please Wait")));
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            backgroundColor: Colors.indigo),
-                        child: (isloading)
-                            ? const CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                        )
-                            : const Text(
-                          "Add Brand",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    )
-                  ],
+                      // focusedBorder: const OutlineInputBorder(
+                      //   borderSide: BorderSide(color:Colors.deepPurpleAccent)
+                      // ),
+                      labelText: "SubCategory Name",
+                      labelStyle: const TextStyle(color: Colors.deepPurpleAccent)
+                  ),
                 ),
-              )),
-        ],
+              ),
+              const SizedBox(height: 10,),
+              selectedImage != null
+                  ? Image.file(selectedImage!, width: 200, height: 200, fit: BoxFit.cover,)
+                  : Image.asset("assets/Icons/Images.jpg", width: 200, height: 200),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    ImagePicker imagePicker = ImagePicker();
+                    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+                    if (file == null) return;
+                    selectedImage = File(file.path);
+                    setState(() {});
+                  },
+                  style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                  child: const Text("Select Image",style: TextStyle(color: Colors.deepPurpleAccent),),
+                ),
+              ),
+              const SizedBox(height: 20,),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    // Fixme: Call the method for add data here
+                    addSubCategoryToFirestore();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurpleAccent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
+                  child: isLoading
+                      ? const CircularProgressIndicator(color: Colors.white,) // Show the progress indicator
+                      : const Text(
+                    "Add SubCategory",style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+        ),
       ),
     );
-
   }
 }
+
+class CategoryDropdown extends StatelessWidget {
+  final String? selectedCategory;
+  final ValueChanged<String?> onChanged;
+
+  const CategoryDropdown({required this.selectedCategory, required this.onChanged, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('Category').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const CircularProgressIndicator();
+        }
+
+        final categoryDocs = snapshot.data!.docs;
+        List<CategoryModel> categories = [];
+
+        for (var doc in categoryDocs) {
+          final category = CategoryModel.fromFirestore(doc);
+          categories.add(category);
+        }
+
+        return DropdownButtonFormField<String>(
+          value: selectedCategory,
+          onChanged: onChanged,
+          decoration: const InputDecoration(
+            labelText: 'Select Category',
+            labelStyle: TextStyle(color: Colors.deepPurpleAccent),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(3)),
+            ),
+          ),
+          items: categories.map((CategoryModel category) {
+            return DropdownMenuItem<String>(
+              value: category.Category_Name,
+              child: Text(
+                category.Category_Name,
+                style: const TextStyle(color: Colors.black),
+              ),
+            );
+          }).toList(),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please select a Category';
+            }
+            return null;
+          },
+        );
+      },
+    );
+  }
+}
+

@@ -23,7 +23,7 @@ class _Sub_CategoryState extends State<Sub_Category> {
         centerTitle: true,
         actions: [
           IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const Add_Sub_Category(),));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddSubCategoryScreen(),));
           }, icon: const Icon(Icons.add,size: 23,))
         ],
       ),
@@ -49,9 +49,7 @@ class _Sub_CategoryState extends State<Sub_Category> {
                       return Card(
                         child: Column(
                           children: [
-                            Text(
-                              "Category-${user.Category_Name}",style: const TextStyle(fontSize: 25,color: Colors.indigo),),
-                            Text("Sub Category-${user.Sub_Category}",style: const TextStyle(fontSize: 25,color: Colors.indigo),),
+                            Text(user.Sub_Category,style: const TextStyle(fontSize: 25,color: Colors.indigo),),
                             Image(image: NetworkImage(user.Image),width: 200,height: 200,),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

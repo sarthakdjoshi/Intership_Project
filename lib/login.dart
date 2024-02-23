@@ -66,19 +66,26 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         var email = e_mail.text.trim().toString();
                         var password = pass.text.trim().toString();
                         try {
-                          FirebaseAuth.instance.signInWithEmailAndPassword(
+                          UserCredential user=await  FirebaseAuth.instance.signInWithEmailAndPassword(
                               email: email, password: password);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Home(),
-                              ));
+                            if(user!=null){
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Home(),
+                                  ));
+                            }
+
                         } on FirebaseAuthException catch (e) {
                           print(e.code.toString());
+                          if(e.code.toString()=="channel-error"){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter User email or password")));
+
+                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(
