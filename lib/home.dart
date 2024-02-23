@@ -60,8 +60,8 @@ class _HomeState extends State<Home> {
           ),
          ElevatedButton(onPressed: (){
            FirebaseAuth.instance.signOut();
-           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login(),));
-         }, child: Text("Logout")),
+           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login(),));
+         }, child: const Text("Logout")),
          Expanded(
               child: GridView.count(
                   crossAxisCount: 2,

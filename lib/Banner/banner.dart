@@ -17,7 +17,7 @@ class _BannersState extends State<Banners> {
         backgroundColor: Colors.indigo,
         centerTitle: true,
         actions: [
-          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Add_Banner(),)), icon: Icon(Icons.add))
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Add_Banner(),)), icon: const Icon(Icons.add))
         ],
       ),
       body: const Center(

@@ -72,18 +72,16 @@ class _LoginState extends State<Login> {
                         try {
                           UserCredential user=await  FirebaseAuth.instance.signInWithEmailAndPassword(
                               email: email, password: password);
-                            if(user!=null){
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Home(),
-                                  ));
-                            }
-
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Home(),
+                                ));
+                          
                         } on FirebaseAuthException catch (e) {
                           print(e.code.toString());
                           if(e.code.toString()=="channel-error"){
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Enter User email or password")));
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Enter User email or password")));
 
                           }
                         }

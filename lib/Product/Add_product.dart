@@ -73,7 +73,7 @@ class _Add_ProductState extends State<Add_Product> {
           "product_all": product_all.text.trim().toString(),
           "images": imageUrls,
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Product Added")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product Added")));
         print(imageUrls);
       } catch (e) {
         print(e.toString());
@@ -308,11 +308,11 @@ class _Add_ProductState extends State<Add_Product> {
                     onPressed: () {
                      if(selectedImage!=null){
                         add();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please Wait")));
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Wait")));
 
                      }
                      else{
-                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Choose Image")));
+                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Choose Image")));
 
                      }
 
@@ -444,8 +444,8 @@ class SubCategoryDropdown extends StatelessWidget {
     required this.selectedSubCategory,
     required this.selectedCategory,
     required this.onChanged,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
