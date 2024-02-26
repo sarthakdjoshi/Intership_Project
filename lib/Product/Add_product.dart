@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 import 'dart:io';
 import 'dart:core';
 
@@ -16,7 +17,6 @@ class Add_Product extends StatefulWidget {
 }
 
 class _Add_ProductState extends State<Add_Product> {
-  String uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
   String imageUrl ='';
   List<File>? selectedImage = [];
   bool isLoading = false;
@@ -42,7 +42,7 @@ class _Add_ProductState extends State<Add_Product> {
     if (selectedImage != null) {
       List<String> imageUrls = [];
       for (var imageFile in selectedImage!) {
-        var ref = FirebaseStorage.instance.ref().child("Product").child(uniquefilename);
+        var ref = FirebaseStorage.instance.ref().child("Product").child(const Uuid().v1());
         try {
           await ref.putFile(imageFile);
           imageUrl = await ref.getDownloadURL();
@@ -55,7 +55,7 @@ class _Add_ProductState extends State<Add_Product> {
       try {
         await FirebaseFirestore.instance.collection("Product").add({
           "category":selectedCategory.toString(),
-          "Sub-category":selectedSubCategory.toString(),
+          "Sub_category":selectedSubCategory.toString(),
           "product_name": product_name.text.trim().toString(),
           "product_price": product_price.text.trim().toString(),
           "discount": discount.text.trim().toString(),
@@ -109,7 +109,8 @@ class _Add_ProductState extends State<Add_Product> {
                                 child: Image.file(selectedImage![index],
                                     height: 100, width: 100));
                           },
-                        ))
+                        )
+                )
                     : SizedBox(
                         height: 300,
                         width: 300,

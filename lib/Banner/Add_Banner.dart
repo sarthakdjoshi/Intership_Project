@@ -32,7 +32,7 @@ class _Add_BannerState extends State<Add_Banner> {
         imageurl = await ref.getDownloadURL();
         print("Image Url:$imageurl");
         FirebaseFirestore.instance.collection("Banner").add({
-          "Banner": name.text.trim().toString(),
+          "Banner_Name": name.text.trim().toString(),
           "Image": imageurl
         }).then((value) {
           name.clear();
@@ -41,7 +41,7 @@ class _Add_BannerState extends State<Add_Banner> {
             isloading = false;
           });
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Category Added SucessFully"),
+            content: Text("Banner Added SucessFully"),
             duration: Duration(seconds: 2),
           ));
         });

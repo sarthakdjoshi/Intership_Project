@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pratice/Banner/Add_Banner.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pratice/Banner/Edit_Banner.dart';
+import 'package:pratice/Model/Banner_model.dart';
+
+import 'Add_Banner.dart';
 
 class Banners extends StatefulWidget {
   const Banners({super.key});
@@ -20,8 +25,89 @@ class _BannersState extends State<Banners> {
           IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Add_Banner(),)), icon: const Icon(Icons.add))
         ],
       ),
-      body: const Center(
-        child: Text("Banners"),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              children: [
+                Container(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: "Enter Product Name",
+                      hintStyle: const TextStyle(color: Colors.indigo),
+                      suffixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.search),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.indigo),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream:
+              FirebaseFirestore.instance.collection("Banner").snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError || snapshot.data == null) {
+                  return Text("Error:${snapshot.hasError}");
+                } else {
+                  final List<Banner_Model> users = snapshot.data!.docs
+                      .map((doc) => Banner_Model.fromFirestore(doc))
+                      .toList();
+                  return ListView.builder(
+                    itemCount: users.length,
+                    itemBuilder: (context, index) {
+                      var user = users[index];
+                      return Card(
+                        child: Column(
+                          children: [
+                            Text(
+                              user.Banner_Name ?? "",
+                              style: const TextStyle(
+                                  fontSize: 25, color: Colors.indigo),
+                            ),
+                           Image.network(user.Image),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                CupertinoButton(
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection("Banner")
+                                        .doc(user.id)
+                                        .delete();
+
+                                  },
+                                  child: const Text("Delete"),
+                                ),
+                                CupertinoButton(
+                                  onPressed: () {
+                                    Navigator.push(context,MaterialPageRoute(builder:  (context) => Edit_Banner(banner: user),));
+                                  },
+                                  child: const Text("Update"),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

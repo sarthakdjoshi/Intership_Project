@@ -50,6 +50,57 @@ class _HomeState extends State<Home> {
           backgroundColor: Colors.blue,
           centerTitle: true,
         ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children:  [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'Menu',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+             const ListTile(
+               title: Text("Home"),
+               leading: Icon(Icons.home),
+             ),
+              const ListTile(
+                title: Text("Orders"),
+                leading: Icon(Icons.shopping_cart),
+              ),
+              const ListTile(
+                title: Text("Notification"),
+                leading: Icon(Icons.notifications),
+              ),
+             InkWell(
+               onTap: (){
+                 FirebaseAuth.instance.signOut();
+                 Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Login(),));
+               },
+               child: const ListTile(
+                 title: Text("Logout"),
+                 leading: Icon(Icons.logout),
+               ),
+             ),
+
+             const ListTile(
+               title: Text("Share"),
+               leading: Icon(Icons.share),
+             ),
+             const ListTile(
+               title: Text("Rate Us"),
+               leading: Icon(Icons.rate_review),
+             ),
+
+            ],
+          ),
+        ),
         body: Column(children: [
           const Text(
             "E-Commerce",
@@ -58,10 +109,6 @@ class _HomeState extends State<Home> {
                 color: Colors.indigo,
                 fontWeight: FontWeight.w900),
           ),
-         ElevatedButton(onPressed: (){
-           FirebaseAuth.instance.signOut();
-           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login(),));
-         }, child: const Text("Logout")),
          Expanded(
               child: GridView.count(
                   crossAxisCount: 2,
