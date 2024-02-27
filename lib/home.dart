@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pratice/Screen/Category/categoryscreen.dart';
 import 'package:pratice/Screen/allUser.dart';
-import 'package:pratice/Banner/banner.dart';
+import 'package:pratice/Screen/Banner/banner.dart';
 import 'package:pratice/Screen/order.dart';
-import 'package:pratice/Product/product.dart';
-import 'package:pratice/Sub-Category/subcategory.dart';
+import 'package:pratice/Screen/Sub-Category/subcategory.dart';
 import 'package:pratice/login.dart';
+
+import 'Screen/Product/product.dart';
 
 
 class Home extends StatefulWidget {

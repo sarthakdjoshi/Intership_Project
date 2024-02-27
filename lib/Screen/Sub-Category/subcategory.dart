@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pratice/Model/Sub-Category-Model.dart';
-import 'package:pratice/Sub-Category/Add_Sub-Category.dart';
-import 'package:pratice/Sub-Category/edit_sub_category.dart';
+import 'package:pratice/Screen/Sub-Category/Add_Sub-Category.dart';
+import 'package:pratice/Screen/Sub-Category/edit_sub_category.dart';
 class Sub_Category extends StatefulWidget {
   const Sub_Category({super.key});
 

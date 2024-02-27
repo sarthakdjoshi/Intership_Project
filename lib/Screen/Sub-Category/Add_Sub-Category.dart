@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-import '../Model/category-model.dart';
+import '../../Model/category-model.dart';
 
 class AddSubCategoryScreen extends StatefulWidget {
   const AddSubCategoryScreen({super.key});

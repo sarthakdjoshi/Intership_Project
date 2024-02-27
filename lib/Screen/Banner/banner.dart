@@ -1,33 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pratice/Model/Product_Model.dart';
-import 'package:pratice/Product/Add_product.dart';
-import 'package:pratice/Product/edit_Product.dart';
+import 'package:pratice/Screen/Banner/Edit_Banner.dart';
+import 'package:pratice/Model/Banner_model.dart';
 
-class Product extends StatefulWidget {
-  const Product({super.key});
+import 'Add_Banner.dart';
+
+class Banners extends StatefulWidget {
+  const Banners({super.key});
 
   @override
-  State<Product> createState() => _ProductState();
+  State<Banners> createState() => _BannersState();
 }
 
-class _ProductState extends State<Product> {
+class _BannersState extends State<Banners> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Product"),
+        title: const Text("Bannerss"),
         backgroundColor: Colors.indigo,
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Add_Product()));
-            },
-            icon: const Icon(Icons.add),
-          )
+          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Add_Banner(),)), icon: const Icon(Icons.add))
         ],
       ),
       body: Column(
@@ -58,7 +53,7 @@ class _ProductState extends State<Product> {
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream:
-              FirebaseFirestore.instance.collection("Product").snapshots(),
+              FirebaseFirestore.instance.collection("Banner").snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -66,8 +61,8 @@ class _ProductState extends State<Product> {
                 if (snapshot.hasError || snapshot.data == null) {
                   return Text("Error:${snapshot.hasError}");
                 } else {
-                  final List<Product_Model> users = snapshot.data!.docs
-                      .map((doc) => Product_Model.fromFirestore(doc))
+                  final List<Banner_Model> users = snapshot.data!.docs
+                      .map((doc) => Banner_Model.fromFirestore(doc))
                       .toList();
                   return ListView.builder(
                     itemCount: users.length,
@@ -77,62 +72,27 @@ class _ProductState extends State<Product> {
                         child: Column(
                           children: [
                             Text(
-                              user.category ?? "",
+                              user.Banner_Name ?? "",
                               style: const TextStyle(
                                   fontSize: 25, color: Colors.indigo),
                             ),
-                            Text(
-                              user.Sub_category ?? "",
-                              style: const TextStyle(
-                                  fontSize: 25, color: Colors.indigo),
-                            ),
-                            Text(
-                              user.product_name ?? "",
-                              style: const TextStyle(
-                                  fontSize: 25, color: Colors.indigo),
-                            ),
-                            SizedBox(
-                              height: 150, // adjust the height as per your UI requirement
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: user.images.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Image.network(user.images[index]),
-                                  );
-                                },
-                              ),
-                            ),
-                            Text(
-                              user.product_price ?? "",
-                              style: const TextStyle(
-                                  fontSize: 25, color: Colors.indigo),
-                            ),
+                           Image.network(user.Image),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
                                     FirebaseFirestore.instance
-                                        .collection("Product")
+                                        .collection("Banner")
                                         .doc(user.id)
                                         .delete();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "${user.category} was Deleted",
-                                        ),
-                                        duration:
-                                        const Duration(seconds: 2),
-                                      ),
-                                    );
+
                                   },
                                   child: const Text("Delete"),
                                 ),
                                 CupertinoButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Edit_Product(product: user),));
+                                    Navigator.push(context,MaterialPageRoute(builder:  (context) => Edit_Banner(banner: user),));
                                   },
                                   child: const Text("Update"),
                                 ),
@@ -152,4 +112,3 @@ class _ProductState extends State<Product> {
     );
   }
 }
-

@@ -6,8 +6,8 @@ import 'package:uuid/uuid.dart';
 import 'dart:io';
 import 'dart:core';
 
-import '../Model/Sub-Category-Model.dart';
-import '../Model/category-model.dart';
+import '../../Model/Sub-Category-Model.dart';
+import '../../Model/category-model.dart';
 
 class Add_Product extends StatefulWidget {
   const Add_Product({super.key});

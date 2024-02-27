@@ -7,7 +7,7 @@ import 'package:pratice/Model/category-model.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
-import '../Model/Product_Model.dart';
+import '../../Model/Product_Model.dart';
 
 class Edit_Product extends StatefulWidget {
   final Product_Model product;
