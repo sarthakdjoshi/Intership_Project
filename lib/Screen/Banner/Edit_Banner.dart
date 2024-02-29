@@ -21,39 +21,51 @@ class _Edit_BannerState extends State<Edit_Banner> {
   var imageurl = "";
   bool isloading = false;
 
-  void adddata() async {
-    if (profilepic != null) {
-      setState(() {
-        isloading = true;
-      });
-      var ref = FirebaseStorage.instance
-          .ref()
-          .child("Banner")
-          .child(uniquefilename);
-      try {
-        await ref.putFile(profilepic!);
-        imageurl = await ref.getDownloadURL();
-        print("Image Url:$imageurl");
-        FirebaseFirestore.instance.collection("Banner").doc(widget.banner.id).update({
-          "Banner_Name": name.text.trim().toString(),
-          "Image": imageurl
-        }).then((value) {
-          name.clear();
-          profilepic = null;
-          setState(() {
-            isloading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Banner Added Successfully"),
-            duration: Duration(seconds: 2),
-          ));
-        });
-      } catch (e) {
-        print(e.toString());
+  Future<void> UpdateData() async {
+    setState(() {
+    });
+      isloading   = true;
+
+    try {
+      String imageUrl = widget.banner.Image; // Default to existing image
+      if (profilepic  != null) {
+        Reference ref = FirebaseStorage.instance
+            .ref()
+            .child("Category")
+            .child(DateTime.now().millisecondsSinceEpoch.toString());
+        await ref.putFile(profilepic !);
+        imageUrl = await ref.getDownloadURL();
       }
+
+      // Update category data
+      await FirebaseFirestore.instance
+          .collection("Banner")
+          .doc(widget.banner.id)
+          .update({
+        "Banner_Name":name.text.trim().toString(),
+        "Image": imageUrl,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Banner updated successfully"),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } catch (error) {
+      print("Error updating category: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to update category. Please try again."),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } finally {
+      setState(() {
+        isloading   = false;
+      });
     }
   }
-
   @override
   void initState() {
     super.initState();
@@ -145,24 +157,14 @@ class _Edit_BannerState extends State<Edit_Banner> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      var Name = name.text.trim().toString();
-                      if (Name.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Enter Banner Name")));
-                      } else if (profilepic == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Choose Photo")));
-                      } else {
-                        adddata();
-                      }
-                    },
+                    onPressed: UpdateData,
                     style: ElevatedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.indigo,
-                    ),
-                    child: (isloading)
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                        backgroundColor: Colors.indigo),
+                    child: (isloading  )
+                        ? const CircularProgressIndicator()
                         : const Text(
                       "Update",
                       style: TextStyle(color: Colors.white),

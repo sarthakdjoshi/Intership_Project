@@ -30,36 +30,49 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
     selectedCategory=widget.name1.Category_Name;
 }
   Future<void> UpdateData() async {
-    if (profilepic != null) {
-      setState(() {
-        isloading = true;
-      });
-      var ref = FirebaseStorage.instance
-          .ref()
-          .child("Sub-Category")
-          .child(uniquefilename);
-      try {
-        await ref.putFile(profilepic!);
-        imageurl = await ref.getDownloadURL();
-        print("Image Url:$imageurl");
-        FirebaseFirestore.instance.collection("Sub-Category").doc(widget.name1.id).update({
-          "Sub_Category": name.text.trim().toString(),
-          "Image": imageurl,
-          "Category_Name":selectedCategory.toString()
-        }).then((value) {
-          name.clear();
-          setState(() {
-            isloading = false;
-          });
-          Navigator.push(context,MaterialPageRoute(builder:  (context) => const Sub_Category(),));
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Category Updated SucessFully"),
-            duration: Duration(seconds: 2),
-          ));
-        });
-      } catch (e) {
-        print(e.toString());
+    setState(() {
+      isloading   = true;
+    });
+
+    try {
+      String imageUrl = widget.name1.Image; // Default to existing image
+      if (profilepic  != null) {
+        Reference ref = FirebaseStorage.instance
+            .ref()
+            .child("Category")
+            .child(DateTime.now().millisecondsSinceEpoch.toString());
+        await ref.putFile(profilepic !);
+        imageUrl = await ref.getDownloadURL();
       }
+
+      // Update category data
+      await FirebaseFirestore.instance
+          .collection("Sub-Category")
+          .doc(widget.name1.id)
+          .update({
+        "Category_Name":selectedCategory.toString(),
+        "Sub_Category":name.text.trim().toString(),
+        "Image": imageUrl,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Sub-Category updated successfully"),
+          duration: Duration(seconds: 2),
+        ),
+      );
+     } catch (error) {
+      print("Error updating category: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to update category. Please try again."),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } finally {
+      setState(() {
+        isloading   = false;
+      });
     }
   }
 
@@ -153,35 +166,20 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          var Name = name.text.trim().toString();
-                          if (Name.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text("Enter Category Name")));
-                          } else if (profilepic == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Choose Photo")));
-                          } else {
-                            UpdateData();
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                content:
-                                Text("Please Wait")));
-                          }
-                        },
+                        onPressed: UpdateData,
                         style: ElevatedButton.styleFrom(
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.zero,
                             ),
                             backgroundColor: Colors.indigo),
-                        child: (isloading)
+                        child: (isloading  )
                             ? const CircularProgressIndicator()
                             : const Text(
                           "Update",
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

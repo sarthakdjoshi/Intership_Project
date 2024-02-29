@@ -90,20 +90,40 @@ class _Category_ScreenState extends State<Category_Screen> {
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection("Category")
-                                        .doc(user.id)
-                                        .delete();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text(
-                                            "${user.Category_Name} was Deleted"),
-                                          duration: const Duration(seconds: 2),));
+                                    showDialog(context: context, builder:(BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Confirm TO Delete"),
+                                        content: const Text('Are you sure you want to delete this category?'),
+                                        actions: [
+                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: Text("NO")),
+                                          TextButton(onPressed: (){
+                                            FirebaseFirestore.instance
+                                                .collection("Category")
+                                                .doc(user.id)
+                                                .delete();
+                                            Navigator.of(context).pop();
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "${user.Category_Name} was Deleted",
+                                                ),
+                                                duration:
+                                                const Duration(seconds: 2),
+                                              ),
+
+                                            );
+                                          }, child: Text("Yes")),
+
+                                        ],
+                                      );
+                                    },);
+
                                   },
                                   child: const Text("Delete"),
                                 ),
                                 CupertinoButton(
                                   onPressed: () {
-                                    Navigator.push(context,MaterialPageRoute(builder: (context) =>Edit_Category(name1: user,)));
+                                    Navigator.push(context,MaterialPageRoute(builder: (context) =>Edit_Category(category: user,)));
                                   },
                                   child: const Text("Update"),
                                 ),

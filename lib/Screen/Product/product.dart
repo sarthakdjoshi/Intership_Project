@@ -76,16 +76,7 @@ class _ProductState extends State<Product> {
                       return Card(
                         child: Column(
                           children: [
-                            Text(
-                              user.category ?? "",
-                              style: const TextStyle(
-                                  fontSize: 25, color: Colors.indigo),
-                            ),
-                            Text(
-                              user.Sub_category ?? "",
-                              style: const TextStyle(
-                                  fontSize: 25, color: Colors.indigo),
-                            ),
+
                             Text(
                               user.product_name ?? "",
                               style: const TextStyle(
@@ -93,16 +84,7 @@ class _ProductState extends State<Product> {
                             ),
                             SizedBox(
                               height: 150, // adjust the height as per your UI requirement
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: user.images.length,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Image.network(user.images[index]),
-                                  );
-                                },
-                              ),
+                              child: Image.network(user.images[0])
                             ),
                             Text(
                               user.product_price ?? "",
@@ -114,19 +96,34 @@ class _ProductState extends State<Product> {
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection("Product")
-                                        .doc(user.id)
-                                        .delete();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          "${user.category} was Deleted",
-                                        ),
-                                        duration:
-                                        const Duration(seconds: 2),
-                                      ),
-                                    );
+                                    showDialog(context: context, builder:(BuildContext context) {
+                                      return AlertDialog(
+                                          title: const Text("Confirm TO Delete"),
+                                        content: const Text('Are you sure you want to delete this category?'),
+                                        actions: [
+                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: Text("NO")),
+                                          TextButton(onPressed: (){
+                                            FirebaseFirestore.instance
+                                                .collection("Product")
+                                                .doc(user.id)
+                                                .delete();
+                                            Navigator.of(context).pop();
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "${user.category} was Deleted",
+                                                ),
+                                                duration:
+                                                const Duration(seconds: 2),
+                                              ),
+
+                                            );
+                                          }, child: Text("Yes")),
+
+                                        ],
+                                      );
+                                    },);
+
                                   },
                                   child: const Text("Delete"),
                                 ),

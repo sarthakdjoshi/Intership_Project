@@ -41,7 +41,6 @@ class _SignupState extends State<Signup> {
                 ),
                 const SizedBox(
                   height: 10,
-
                 ),
                 TextField(
                   controller: pass,
@@ -56,27 +55,35 @@ class _SignupState extends State<Signup> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 SizedBox(
-                  width:double.infinity,
+                  width: double.infinity,
                   child: ElevatedButton(
-
                       onPressed: () {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const Login(),
                             ));
-                      },style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent,
-                      shape:const RoundedRectangleBorder(borderRadius: BorderRadius.zero) ),
-                      child: const Text("Signup",style: TextStyle(color: Colors.white),)),
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.greenAccent,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero)),
+                      child: const Text(
+                        "Signup",
+                        style: TextStyle(color: Colors.white),
+                      )),
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Already Have Account?"),
-                    const SizedBox(width: 20,),
+                    const SizedBox(
+                      width: 20,
+                    ),
                     CupertinoButton(
                         onPressed: () {
                           Navigator.pushReplacement(

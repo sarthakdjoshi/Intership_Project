@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,170 +9,167 @@ import 'package:pratice/Screen/Category/categoryscreen.dart';
 import '../../Model/category-model.dart';
 
 class Edit_Category extends StatefulWidget {
- CategoryModel name1;
+  final CategoryModel category;
 
-  Edit_Category({super.key,required this.name1 });
+  Edit_Category({Key? key, required this.category}) : super(key: key);
 
   @override
-  State<Edit_Category> createState() => _Edit_CategoryState();
+  _Edit_CategoryState createState() => _Edit_CategoryState();
 }
+
 class _Edit_CategoryState extends State<Edit_Category> {
-  var name = TextEditingController();
-  File? profilepic;
-  var uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
-  var imageurl = "";
-  bool isloading = false;
+  final TextEditingController name  = TextEditingController();
+  File? profilepic ;
+  bool isloading   = false;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    name.text=widget.name1.Category_Name;
-    }
-  Future<void> UpdateData() async {
-    if (profilepic != null) {
-      setState(() {
-        isloading = true;
-      });
-      var ref = FirebaseStorage.instance
-          .ref()
-          .child("Category")
-          .child(uniquefilename);
-      try {
-        await ref.putFile(profilepic!);
-        imageurl = await ref.getDownloadURL();
-        print("Image Url:$imageurl");
-        FirebaseFirestore.instance.collection("Category").doc(widget.name1.id).update({
-          "Category_Name": name.text.trim().toString(),
-          "Image": imageurl
-        }).then((value) {
-          name.clear();
-          setState(() {
-            isloading = false;
-          });
-          Navigator.push(context,MaterialPageRoute(builder:  (context) => const Category_Screen(),));
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Category Updated SucessFully"),
-            duration: Duration(seconds: 2),
-          ));
-        });
-      } catch (e) {
-        print(e.toString());
-      }
-    }
+    name .text = widget.category.Category_Name;
   }
 
+  Future<void> _updateCategory() async {
+    setState(() {
+      isloading   = true;
+    });
+
+    try {
+      String imageUrl = widget.category.Image; // Default to existing image
+      if (profilepic  != null) {
+        // Upload new image if selected
+        Reference ref = FirebaseStorage.instance
+            .ref()
+            .child("Category")
+            .child(DateTime.now().millisecondsSinceEpoch.toString());
+        await ref.putFile(profilepic !);
+        imageUrl = await ref.getDownloadURL();
+      }
+
+      // Update category data
+      await FirebaseFirestore.instance
+          .collection("Category")
+          .doc(widget.category.id)
+          .update({
+        "Category_Name": name .text.trim(),
+        "Image": imageUrl,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Category updated successfully"),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      // Navigate back to category screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const Category_Screen()),
+      );
+    } catch (error) {
+      print("Error updating category: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to update category. Please try again."),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } finally {
+      setState(() {
+        isloading   = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Categories"),
-          backgroundColor: Colors.lightGreenAccent,
-          centerTitle: true,
-        ),
-        body: SingleChildScrollView(
-            child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Edit Your Category",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.indigo,
-                      fontWeight: FontWeight.w900)),
-              const SizedBox(
-                height: 10,
-              ),
-              TextField(
-                controller: name,
-                decoration: InputDecoration(
-                  hintText: "Enter Name",
-                  hintStyle: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.indigo,
-                      fontWeight: FontWeight.w900),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+      appBar: AppBar(
+        title: const Text("Edit Category"),
+        backgroundColor: Colors.indigo,
+        centerTitle: true,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SingleChildScrollView(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text("Edit Your Category",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.w900)),
                   ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              (profilepic != null)
-                  ? Image.file(profilepic!,width: 200,height: 200,)
-                  : Image.network(widget.name1.Image,width: 200,height: 200,),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        XFile? selecetedimage = await ImagePicker()
-                            .pickImage(source: ImageSource.gallery);
-                        if (selecetedimage != null) {
-                          print("Image");
-                          File cf = File(selecetedimage.path);
-                          setState(() {
-                            profilepic = cf;
-                          });
-                        } else {
-                          print("No Image");
-                        }
-                      } catch (e) {
-                        print(e.toString());
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                        backgroundColor: Colors.white70),
-                    child: const Text(
-                      "Choose Your Image",
-                      style: TextStyle(color: Colors.indigo),
-                    )),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    var Name = name.text.trim().toString();
-                    if (Name.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("Enter Category Name")));
-                    } else if (profilepic == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Choose Photo")));
-                    } else {
-                      UpdateData();
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content:
-                              Text("Category Updated With Name=$Name")));
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    controller: name ,
+                    decoration: InputDecoration(
+                      hintText: "Enter Name",
+                      hintStyle: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.indigo,
+                          fontWeight: FontWeight.w900),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      backgroundColor: Colors.indigo),
-                  child: (isloading)
-                      ? const CircularProgressIndicator()
-                      : const Text(
-                          "Update",
-                          style: TextStyle(color: Colors.white),
+                    ),
+                  ),   const SizedBox(height: 20),
+                  (profilepic  != null)
+                      ? Center(child: Image.file(profilepic !,width: 200,height: 200,))
+                      : Center(child: Image.network(widget.category.Image,width: 200,height: 200,)),
+                  const SizedBox(height: 20),
+                  Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            final XFile? pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                            if (pickedImage != null) {
+                              setState(() {
+                                profilepic  = File(pickedImage.path);
+                              });
+                            }
+                          }, style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            backgroundColor: Colors.white70),
+                        child: const Text("Select Image"),
                         ),
-                ),
-              )
-            ],
+                      ),
+                      const SizedBox(width: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _updateCategory,
+                          style: ElevatedButton.styleFrom(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ),
+                              backgroundColor: Colors.indigo),
+                          child: (isloading  )
+                              ? const CircularProgressIndicator()
+                              : const Text(
+                            "Update",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
-        )));
+        ],
+      ),
+    );
   }
 }

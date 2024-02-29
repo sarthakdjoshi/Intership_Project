@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pratice/Model/Sub-Category-Model.dart';
 import 'package:pratice/Model/category-model.dart';
+import 'package:pratice/Screen/Product/product.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
@@ -11,7 +12,7 @@ import '../../Model/Product_Model.dart';
 
 class Edit_Product extends StatefulWidget {
   final Product_Model product;
-  const Edit_Product({super.key, required this.product});
+  const Edit_Product({Key? key, required this.product}) : super(key: key);
 
   @override
   State<Edit_Product> createState() => _Edit_ProductState();
@@ -28,40 +29,55 @@ class _Edit_ProductState extends State<Edit_Product> {
   var product_price = TextEditingController();
 
   Future<void> add() async {
-    if (selectedImage != null) {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
       List<String> imageUrls = [];
-      for (var imageFile in selectedImage!) {
-        var ref = FirebaseStorage.instance.ref().child("Product").child(const Uuid().v1());
-        try {
+
+      if (selectedImage != null) {
+        for (File imageFile in selectedImage!) {
+          var ref = FirebaseStorage.instance.ref().child("Product").child(const Uuid().v1());
           await ref.putFile(imageFile);
           imageUrl = await ref.getDownloadURL();
           print("Image Url: $imageUrl");
           imageUrls.add(imageUrl);
-        } catch (e) {
-          print(e.toString());
         }
       }
-      try {
-        await FirebaseFirestore.instance.collection("Product").doc(widget.product.id).update({
-          "category": selectedCategory.toString(),
-          "Sub_category": selectedSubCategory.toString(),
-          "product_name": product_name.text.trim().toString(),
-          "product_price": product_price.text.trim().toString(),
-          "images": imageUrls,
-        });
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product Added")));
-        print(imageUrls);
-      } catch (e) {
-        print(e.toString());
+
+      Map<String, dynamic> updatedData = {
+        "category": selectedCategory.toString(),
+        "Sub_category": selectedSubCategory.toString(),
+        "product_name": product_name.text.trim().toString(),
+        "product_price": product_price.text.trim().toString(),
+        if (imageUrls.isNotEmpty) 'images': imageUrls,
+      };
+
+      if (selectedImage != null) {
+        updatedData["images"] = imageUrls;
       }
+
+      await FirebaseFirestore.instance.collection("Product").doc(widget.product.id).update(updatedData);
+
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Product(),));
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product Updated")));
+      print(imageUrls);
+    } catch (e) {
+      print(e.toString());
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
+
 
   @override
   void initState() {
     super.initState();
     abc = false;
-    selectedImage = widget.product.images.cast<File>();
     selectedCategory = widget.product.category;
     selectedSubCategory = widget.product.Sub_category;
     product_name.text = widget.product.product_name;
@@ -109,9 +125,8 @@ class _Edit_ProductState extends State<Edit_Product> {
                   onPressed: () async {
                     ImagePicker imagePicker = ImagePicker();
                     List<XFile>? file = await imagePicker.pickMultiImage();
-                    selectedImage = file.map((file) => File(file.path)).toList();
+                    selectedImage = file?.map((file) => File(file.path)).toList();
                     setState(() {
-
                       print(selectedImage);
                     });
                   },
@@ -180,7 +195,7 @@ class CategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const CategoryDropdown({required this.selectedCategory, required this.onChanged, super.key});
+  const CategoryDropdown({required this.selectedCategory, required this.onChanged, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +250,7 @@ class SubCategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const SubCategoryDropdown({required this.selectedSubCategory, required this.selectedCategory, required this.onChanged, super.key});
+  const SubCategoryDropdown({required this.selectedSubCategory, required this.selectedCategory, required this.onChanged, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

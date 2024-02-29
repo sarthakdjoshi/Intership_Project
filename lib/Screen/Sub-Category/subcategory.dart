@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pratice/Model/Sub-Category-Model.dart';
 import 'package:pratice/Screen/Sub-Category/Add_Sub-Category.dart';
 import 'package:pratice/Screen/Sub-Category/edit_sub_category.dart';
+
+import '../../Model/Sub-Category-Model.dart';
 class Sub_Category extends StatefulWidget {
   const Sub_Category({super.key});
 
@@ -56,14 +57,34 @@ class _Sub_CategoryState extends State<Sub_Category> {
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection("Sub-Category")
-                                        .doc(user.id)
-                                        .delete();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text(
-                                            "${user.Category_Name} was Deleted"),
-                                          duration: const Duration(seconds: 2),));
+                                    showDialog(context: context, builder:(BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Confirm TO Delete"),
+                                        content: const Text('Are you sure you want to delete this category?'),
+                                        actions: [
+                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: Text("NO")),
+                                          TextButton(onPressed: (){
+                                            FirebaseFirestore.instance
+                                                .collection("Sub-Category")
+                                                .doc(user.id)
+                                                .delete();
+                                            Navigator.of(context).pop();
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "${user.Sub_Category} was Deleted",
+                                                ),
+                                                duration:
+                                                const Duration(seconds: 2),
+                                              ),
+
+                                            );
+                                          }, child: Text("Yes")),
+
+                                        ],
+                                      );
+                                    },);
+
                                   },
                                   child: const Text("Delete"),
                                 ),

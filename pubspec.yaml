@@ -44,6 +44,7 @@ dependencies:
   firebase_performance: ^0.9.3+14
   firebase_crashlytics: ^3.4.15
   firebase_analytics: ^10.8.6
+  http: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

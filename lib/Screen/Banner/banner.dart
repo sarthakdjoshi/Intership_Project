@@ -34,7 +34,7 @@ class _BannersState extends State<Banners> {
                 Container(
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: "Enter Product Name",
+                      hintText: "Enter Banner Name",
                       hintStyle: const TextStyle(color: Colors.indigo),
                       suffixIcon: IconButton(
                         onPressed: () {},
@@ -82,10 +82,34 @@ class _BannersState extends State<Banners> {
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection("Banner")
-                                        .doc(user.id)
-                                        .delete();
+                                    showDialog(context: context, builder:(BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Confirm TO Delete"),
+                                        content: const Text('Are you sure you want to delete this category?'),
+                                        actions: [
+                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: Text("NO")),
+                                          TextButton(onPressed: (){
+                                            FirebaseFirestore.instance
+                                                .collection("Banner")
+                                                .doc(user.id)
+                                                .delete();
+                                            Navigator.of(context).pop();
+                                            ScaffoldMessenger.of(context).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  "${user.Banner_Name} was Deleted",
+                                                ),
+                                                duration:
+                                                const Duration(seconds: 2),
+                                              ),
+
+                                            );
+                                          }, child: Text("Yes")),
+
+                                        ],
+                                      );
+                                    },);
+
 
                                   },
                                   child: const Text("Delete"),
