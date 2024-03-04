@@ -6,9 +6,7 @@ import 'package:pratice/Screen/Banner/banner.dart';
 import 'package:pratice/Screen/order.dart';
 import 'package:pratice/Screen/Sub-Category/subcategory.dart';
 import 'package:pratice/login.dart';
-
 import 'Screen/Product/product.dart';
-
 
 class Home extends StatefulWidget {
   const Home({super.key});

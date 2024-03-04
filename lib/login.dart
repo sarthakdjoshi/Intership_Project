@@ -70,19 +70,45 @@ class _LoginState extends State<Login> {
                         var email = e_mail.text.trim().toString();
                         var password = pass.text.trim().toString();
                         try {
-                          UserCredential user=await  FirebaseAuth.instance.signInWithEmailAndPassword(
-                              email: email, password: password);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Home(),
-                                ));
-                          
+                          UserCredential user = await FirebaseAuth.instance
+                              .signInWithEmailAndPassword(
+                                  email: email, password: password);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Home(),
+                              ));
                         } on FirebaseAuthException catch (e) {
                           print(e.code.toString());
-                          if(e.code.toString()=="channel-error"){
-                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Enter User email or password")));
-
+                          if (e.code.toString() == "invalid-credential") {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content:
+                                  Text("Username or password is NotCorrect"),
+                              duration: Duration(seconds: 2),
+                            ));
+                          }
+                          if (e.code.toString() == "channel-error") {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Email or Password Must Be Filled"),
+                              duration: Duration(seconds: 2),
+                            ));
+                          }
+                          if (e.code.toString() == "user-disabled") {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text(
+                                  "Your Account Has Been Lock  Contact Your Principal"),
+                              duration: Duration(seconds: 2),
+                            ));
+                          }
+                          if (e.code.toString() == "invalid-email") {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text("Provide Valid Email "),
+                              duration: Duration(seconds: 2),
+                            ));
                           }
                         }
                       },
