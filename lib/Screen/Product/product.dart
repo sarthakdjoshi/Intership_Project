@@ -101,7 +101,7 @@ class _ProductState extends State<Product> {
                                           title: const Text("Confirm TO Delete"),
                                         content: const Text('Are you sure you want to delete this category?'),
                                         actions: [
-                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: Text("NO")),
+                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: const Text("NO")),
                                           TextButton(onPressed: (){
                                             FirebaseFirestore.instance
                                                 .collection("Product")
@@ -118,7 +118,7 @@ class _ProductState extends State<Product> {
                                               ),
 
                                             );
-                                          }, child: Text("Yes")),
+                                          }, child: const Text("Yes")),
 
                                         ],
                                       );

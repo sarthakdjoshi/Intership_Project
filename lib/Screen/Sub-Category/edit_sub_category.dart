@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pratice/Model/Sub-Category-Model.dart';
-import 'package:pratice/Screen/Sub-Category/subcategory.dart';
 import '../../../Model/category-model.dart';
 
 class Edit_Sub_Category extends StatefulWidget {

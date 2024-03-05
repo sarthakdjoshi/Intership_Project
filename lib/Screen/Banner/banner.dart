@@ -87,7 +87,7 @@ class _BannersState extends State<Banners> {
                                         title: const Text("Confirm TO Delete"),
                                         content: const Text('Are you sure you want to delete this category?'),
                                         actions: [
-                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: Text("NO")),
+                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: const Text("NO")),
                                           TextButton(onPressed: (){
                                             FirebaseFirestore.instance
                                                 .collection("Banner")
@@ -104,7 +104,7 @@ class _BannersState extends State<Banners> {
                                               ),
 
                                             );
-                                          }, child: Text("Yes")),
+                                          }, child: const Text("Yes")),
 
                                         ],
                                       );

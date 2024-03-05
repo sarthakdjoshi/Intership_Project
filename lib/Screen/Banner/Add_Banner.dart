@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class Add_Banner extends StatefulWidget {
   const Add_Banner({super.key});
@@ -14,7 +15,6 @@ class Add_Banner extends StatefulWidget {
 class _Add_BannerState extends State<Add_Banner> {
   var name = TextEditingController();
   File? profilepic;
-  var uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
   var imageurl = "";
   bool isloading = false;
 
@@ -26,7 +26,7 @@ class _Add_BannerState extends State<Add_Banner> {
       var ref = FirebaseStorage.instance
           .ref()
           .child("Banner")
-          .child(uniquefilename);
+          .child(const Uuid().v1());
       try {
         await ref.putFile(profilepic!);
         imageurl = await ref.getDownloadURL();

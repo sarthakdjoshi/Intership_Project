@@ -12,7 +12,7 @@ import '../../Model/Product_Model.dart';
 
 class Edit_Product extends StatefulWidget {
   final Product_Model product;
-  const Edit_Product({Key? key, required this.product}) : super(key: key);
+  const Edit_Product({super.key, required this.product});
 
   @override
   State<Edit_Product> createState() => _Edit_ProductState();
@@ -60,7 +60,7 @@ class _Edit_ProductState extends State<Edit_Product> {
 
       await FirebaseFirestore.instance.collection("Product").doc(widget.product.id).update(updatedData);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Product(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Product(),));
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product Updated")));
       print(imageUrls);
@@ -125,7 +125,7 @@ class _Edit_ProductState extends State<Edit_Product> {
                   onPressed: () async {
                     ImagePicker imagePicker = ImagePicker();
                     List<XFile>? file = await imagePicker.pickMultiImage();
-                    selectedImage = file?.map((file) => File(file.path)).toList();
+                    selectedImage = file.map((file) => File(file.path)).toList();
                     setState(() {
                       print(selectedImage);
                     });
@@ -195,7 +195,7 @@ class CategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const CategoryDropdown({required this.selectedCategory, required this.onChanged, Key? key}) : super(key: key);
+  const CategoryDropdown({required this.selectedCategory, required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +250,7 @@ class SubCategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const SubCategoryDropdown({required this.selectedSubCategory, required this.selectedCategory, required this.onChanged, Key? key}) : super(key: key);
+  const SubCategoryDropdown({required this.selectedSubCategory, required this.selectedCategory, required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {

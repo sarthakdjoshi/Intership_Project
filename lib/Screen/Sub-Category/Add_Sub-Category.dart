@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 import 'dart:io';
 
 import '../../Model/category-model.dart';
@@ -71,7 +72,7 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
       if (selectedImage != null) {
         Reference referenceRoot = FirebaseStorage.instance.ref();
         Reference referenceDirImages = referenceRoot.child('SubCategory_images');
-        Reference referenceImageToUpload = referenceDirImages.child(uniquefilename);
+        Reference referenceImageToUpload = referenceDirImages.child(const Uuid().v1());
         try {
           await referenceImageToUpload.putFile(selectedImage!);
           imageUrl = await referenceImageToUpload.getDownloadURL();

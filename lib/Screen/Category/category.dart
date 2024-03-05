@@ -3,6 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class Category extends StatefulWidget {
   const Category({super.key});
@@ -14,7 +15,6 @@ class Category extends StatefulWidget {
 class _CategoryState extends State<Category> {
   var name = TextEditingController();
   File? profilepic;
-  var uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
   var imageurl = "";
   bool isloading = false;
 
@@ -26,7 +26,7 @@ class _CategoryState extends State<Category> {
       var ref = FirebaseStorage.instance
           .ref()
           .child("Category")
-          .child(uniquefilename);
+          .child(const Uuid().v1());
       try {
         await ref.putFile(profilepic!);
         imageurl = await ref.getDownloadURL();

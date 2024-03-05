@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +10,7 @@ import '../../Model/category-model.dart';
 class Edit_Category extends StatefulWidget {
   final CategoryModel category;
 
-  Edit_Category({Key? key, required this.category}) : super(key: key);
+  const Edit_Category({super.key, required this.category});
 
   @override
   _Edit_CategoryState createState() => _Edit_CategoryState();
