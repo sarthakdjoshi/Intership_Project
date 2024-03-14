@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pratice/login.dart';
+import 'package:ecommerce_admin/login.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});

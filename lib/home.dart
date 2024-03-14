@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pratice/Screen/Category/categoryscreen.dart';
-import 'package:pratice/Screen/Provider.dart';
-import 'package:pratice/Screen/allUser.dart';
-import 'package:pratice/Screen/Banner/banner.dart';
-import 'package:pratice/Screen/order.dart';
-import 'package:pratice/Screen/Sub-Category/subcategory.dart';
-import 'package:pratice/login.dart';
+import 'package:ecommerce_admin/Screen/Category/categoryscreen.dart';
+import 'package:ecommerce_admin/Screen/Provider.dart';
+import 'package:ecommerce_admin/Screen/allUser.dart';
+import 'package:ecommerce_admin/Screen/Banner/banner.dart';
+import 'package:ecommerce_admin/Screen/order.dart';
+import 'package:ecommerce_admin/Screen/Sub-Category/subcategory.dart';
+import 'package:ecommerce_admin/login.dart';
 import 'package:provider/provider.dart';
 import 'Screen/Product/product.dart';
 

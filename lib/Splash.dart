@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pratice/home.dart';
-import 'package:pratice/login.dart';
+import 'package:ecommerce_admin/home.dart';
+import 'package:ecommerce_admin/login.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});

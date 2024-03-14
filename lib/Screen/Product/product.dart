@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pratice/Model/Product_Model.dart';
-import 'package:pratice/Screen/Product/Add_product.dart';
-import 'package:pratice/Screen/Product/edit_Product.dart';
+import 'package:ecommerce_admin/Model/Product_Model.dart';
+import 'package:ecommerce_admin/Screen/Product/Add_product.dart';
+import 'package:ecommerce_admin/Screen/Product/edit_Product.dart';
 
 class Product extends StatefulWidget {
   const Product({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pratice/Screen/Banner/Edit_Banner.dart';
-import 'package:pratice/Model/Banner_model.dart';
+import 'package:ecommerce_admin/Screen/Banner/Edit_Banner.dart';
+import 'package:ecommerce_admin/Model/Banner_model.dart';
 
 import 'Add_Banner.dart';
 

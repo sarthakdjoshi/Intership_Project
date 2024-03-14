@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pratice/Screen/Sub-Category/Add_Sub-Category.dart';
-import 'package:pratice/Screen/Sub-Category/edit_sub_category.dart';
+import 'package:ecommerce_admin/Screen/Sub-Category/Add_Sub-Category.dart';
+import 'package:ecommerce_admin/Screen/Sub-Category/edit_sub_category.dart';
 
 import '../../Model/Sub-Category-Model.dart';
 

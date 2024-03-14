@@ -2,9 +2,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:pratice/Model/Sub-Category-Model.dart';
-import 'package:pratice/Model/category-model.dart';
-import 'package:pratice/Screen/Product/product.dart';
+import 'package:ecommerce_admin/Model/Sub-Category-Model.dart';
+import 'package:ecommerce_admin/Model/category-model.dart';
+import 'package:ecommerce_admin/Screen/Product/product.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
