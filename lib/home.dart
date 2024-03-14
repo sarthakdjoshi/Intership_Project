@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pratice/Screen/Category/categoryscreen.dart';
+import 'package:pratice/Screen/Provider.dart';
 import 'package:pratice/Screen/allUser.dart';
 import 'package:pratice/Screen/Banner/banner.dart';
 import 'package:pratice/Screen/order.dart';
 import 'package:pratice/Screen/Sub-Category/subcategory.dart';
 import 'package:pratice/login.dart';
+import 'package:provider/provider.dart';
 import 'Screen/Product/product.dart';
 
 class Home extends StatefulWidget {
@@ -52,8 +54,8 @@ class _HomeState extends State<Home> {
         drawer: Drawer(
           child: ListView(
             padding: EdgeInsets.zero,
-            children:  [
-               const DrawerHeader(
+            children: [
+              const DrawerHeader(
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
@@ -62,9 +64,9 @@ class _HomeState extends State<Home> {
                     Column(
                       children: [
                         CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage("assets/Icons/order.png")
-                        ),
+                            radius: 50,
+                            backgroundImage:
+                                AssetImage("assets/Icons/order.png")),
                         Text(
                           'Menu',
                           style: TextStyle(
@@ -77,10 +79,10 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-             const ListTile(
-               title: Text("Home"),
-               leading: Icon(Icons.home),
-             ),
+              const ListTile(
+                title: Text("Home"),
+                leading: Icon(Icons.home),
+              ),
               const ListTile(
                 title: Text("Orders"),
                 leading: Icon(Icons.shopping_cart),
@@ -89,26 +91,34 @@ class _HomeState extends State<Home> {
                 title: Text("Notification"),
                 leading: Icon(Icons.notifications),
               ),
-             InkWell(
-               onTap: (){
-                 FirebaseAuth.instance.signOut();
-                 Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const Login(),));
-               },
-               child: const ListTile(
-                 title: Text("Logout"),
-                 leading: Icon(Icons.logout),
-               ),
-             ),
-
-             const ListTile(
-               title: Text("Share"),
-               leading: Icon(Icons.share),
-             ),
-             const ListTile(
-               title: Text("Rate Us"),
-               leading: Icon(Icons.rate_review),
-             ),
-
+              InkWell(
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      ));
+                },
+                child: const ListTile(
+                  title: Text("Logout"),
+                  leading: Icon(Icons.logout),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .toggleTheme();
+                },
+                child: const ListTile(
+                  title: Text("Theme"),
+                  leading: Icon(Icons.nightlight),
+                ),
+              ),
+              const ListTile(
+                title: Text("Rate Us"),
+                leading: Icon(Icons.rate_review),
+              ),
             ],
           ),
         ),
@@ -120,7 +130,7 @@ class _HomeState extends State<Home> {
                 color: Colors.indigo,
                 fontWeight: FontWeight.w900),
           ),
-         Expanded(
+          Expanded(
               child: GridView.count(
                   crossAxisCount: 2,
                   childAspectRatio: 1.0,
@@ -131,7 +141,11 @@ class _HomeState extends State<Home> {
                       color: Colors.white70,
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => nav[index],));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => nav[index],
+                              ));
                         },
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

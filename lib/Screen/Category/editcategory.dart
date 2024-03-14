@@ -17,30 +17,31 @@ class Edit_Category extends StatefulWidget {
 }
 
 class _Edit_CategoryState extends State<Edit_Category> {
-  final TextEditingController name  = TextEditingController();
-  File? profilepic ;
-  bool isloading   = false;
+  final TextEditingController name = TextEditingController();
+  File? profilepic;
+
+  bool isloading = false;
 
   @override
   void initState() {
     super.initState();
-    name .text = widget.category.Category_Name;
+    name.text = widget.category.Category_Name;
   }
 
   Future<void> _updateCategory() async {
     setState(() {
-      isloading   = true;
+      isloading = true;
     });
 
     try {
       String imageUrl = widget.category.Image; // Default to existing image
-      if (profilepic  != null) {
+      if (profilepic != null) {
         // Upload new image if selected
         Reference ref = FirebaseStorage.instance
             .ref()
             .child("Category")
             .child(DateTime.now().millisecondsSinceEpoch.toString());
-        await ref.putFile(profilepic !);
+        await ref.putFile(profilepic!);
         imageUrl = await ref.getDownloadURL();
       }
 
@@ -49,7 +50,7 @@ class _Edit_CategoryState extends State<Edit_Category> {
           .collection("Category")
           .doc(widget.category.id)
           .update({
-        "Category_Name": name .text.trim(),
+        "Category_Name": name.text.trim(),
         "Image": imageUrl,
       });
 
@@ -75,7 +76,7 @@ class _Edit_CategoryState extends State<Edit_Category> {
       );
     } finally {
       setState(() {
-        isloading   = false;
+        isloading = false;
       });
     }
   }
@@ -107,7 +108,7 @@ class _Edit_CategoryState extends State<Edit_Category> {
                     height: 10,
                   ),
                   TextField(
-                    controller: name ,
+                    controller: name,
                     decoration: InputDecoration(
                       hintText: "Enter Name",
                       hintStyle: const TextStyle(
@@ -118,10 +119,21 @@ class _Edit_CategoryState extends State<Edit_Category> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                  ),   const SizedBox(height: 20),
-                  (profilepic  != null)
-                      ? Center(child: Image.file(profilepic !,width: 200,height: 200,))
-                      : Center(child: Image.network(widget.category.Image,width: 200,height: 200,)),
+                  ),
+                  const SizedBox(height: 20),
+                  (profilepic != null)
+                      ? Center(
+                          child: Image.file(
+                          profilepic!,
+                          width: 200,
+                          height: 200,
+                        ))
+                      : Center(
+                          child: Image.network(
+                          widget.category.Image,
+                          width: 200,
+                          height: 200,
+                        )),
                   const SizedBox(height: 20),
                   Column(
                     children: [
@@ -129,18 +141,20 @@ class _Edit_CategoryState extends State<Edit_Category> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
-                            final XFile? pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                            final XFile? pickedImage = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
                             if (pickedImage != null) {
                               setState(() {
-                                profilepic  = File(pickedImage.path);
+                                profilepic = File(pickedImage.path);
                               });
                             }
-                          }, style: ElevatedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
-                            ),
-                            backgroundColor: Colors.white70),
-                        child: const Text("Select Image"),
+                          },
+                          style: ElevatedButton.styleFrom(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ),
+                              backgroundColor: Colors.white70),
+                          child: const Text("Select Image"),
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -153,12 +167,12 @@ class _Edit_CategoryState extends State<Edit_Category> {
                                 borderRadius: BorderRadius.zero,
                               ),
                               backgroundColor: Colors.indigo),
-                          child: (isloading  )
+                          child: (isloading)
                               ? const CircularProgressIndicator()
                               : const Text(
-                            "Update",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                                  "Update",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                         ),
                       ),
                     ],

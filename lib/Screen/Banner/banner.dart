@@ -22,7 +22,13 @@ class _BannersState extends State<Banners> {
         backgroundColor: Colors.indigo,
         centerTitle: true,
         actions: [
-          IconButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Add_Banner(),)), icon: const Icon(Icons.add))
+          IconButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Add_Banner(),
+                  )),
+              icon: const Icon(Icons.add))
         ],
       ),
       body: Column(
@@ -53,7 +59,7 @@ class _BannersState extends State<Banners> {
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream:
-              FirebaseFirestore.instance.collection("Banner").snapshots(),
+                  FirebaseFirestore.instance.collection("Banner").snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -76,47 +82,60 @@ class _BannersState extends State<Banners> {
                               style: const TextStyle(
                                   fontSize: 25, color: Colors.indigo),
                             ),
-                           Image.network(user.Image),
+                            Image.network(user.Image),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    showDialog(context: context, builder:(BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("Confirm TO Delete"),
-                                        content: const Text('Are you sure you want to delete this category?'),
-                                        actions: [
-                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: const Text("NO")),
-                                          TextButton(onPressed: (){
-                                            FirebaseFirestore.instance
-                                                .collection("Banner")
-                                                .doc(user.id)
-                                                .delete();
-                                            Navigator.of(context).pop();
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  "${user.Banner_Name} was Deleted",
-                                                ),
-                                                duration:
-                                                const Duration(seconds: 2),
-                                              ),
-
-                                            );
-                                          }, child: const Text("Yes")),
-
-                                        ],
-                                      );
-                                    },);
-
-
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text("Confirm TO Delete"),
+                                          content: const Text(
+                                              'Are you sure you want to delete this category?'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text("NO")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection("Banner")
+                                                      .doc(user.id)
+                                                      .delete();
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        "${user.Banner_Name} was Deleted",
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text("Yes")),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Text("Delete"),
                                 ),
                                 CupertinoButton(
                                   onPressed: () {
-                                    Navigator.push(context,MaterialPageRoute(builder:  (context) => Edit_Banner(banner: user),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Edit_Banner(banner: user),
+                                        ));
                                   },
                                   child: const Text("Update"),
                                 ),

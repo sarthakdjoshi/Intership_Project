@@ -15,7 +15,6 @@ class AddSubCategoryScreen extends StatefulWidget {
 }
 
 class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
-
   TextEditingController categoryname = TextEditingController();
   TextEditingController SubCategoryname = TextEditingController();
 
@@ -25,7 +24,6 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
   String imageUrl = '';
   File? selectedImage;
   bool isLoading = false;
-
 
   Future<bool> doesSubCategoryExist(String SubCategoryName) async {
     final querySnapshot = await FirebaseFirestore.instance
@@ -38,7 +36,7 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
 
   Future<void> addSubCategoryToFirestore() async {
     final category = selectedCategory;
-    final SubCategory = SubCategoryname .text.trim();
+    final SubCategory = SubCategoryname.text.trim();
 
     if (category == null || category.isEmpty) {
       // Show a toast message if the category is not selected
@@ -48,7 +46,6 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
       return; // Stop the function execution
     }
 
-
     if (SubCategory.isEmpty) {
       // Show a toast message if the subcategory name is empty
       ScaffoldMessenger.of(context).showSnackBar(
@@ -56,7 +53,6 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
       );
       return; // Stop the function execution
     }
-
 
     final doesExist = await doesSubCategoryExist(SubCategory);
 
@@ -71,8 +67,10 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
 
       if (selectedImage != null) {
         Reference referenceRoot = FirebaseStorage.instance.ref();
-        Reference referenceDirImages = referenceRoot.child('SubCategory_images');
-        Reference referenceImageToUpload = referenceDirImages.child(const Uuid().v1());
+        Reference referenceDirImages =
+            referenceRoot.child('SubCategory_images');
+        Reference referenceImageToUpload =
+            referenceDirImages.child(const Uuid().v1());
         try {
           await referenceImageToUpload.putFile(selectedImage!);
           imageUrl = await referenceImageToUpload.getDownloadURL();
@@ -109,31 +107,27 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
     }
   }
 
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
-        title: const Text('Add SubCategory',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white ),),
+        title: const Text(
+          'Add SubCategory',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         elevation: 10,
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
           child: Column(
             children: [
-
-
-              const SizedBox(height: 20,),
-
+              const SizedBox(
+                height: 20,
+              ),
               CategoryDropdown(
                 selectedCategory: selectedCategory,
                 onChanged: (value) {
@@ -142,11 +136,9 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
                   });
                 },
               ),
-
-
-              const SizedBox(height: 20,),
-
-
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 width: double.infinity,
                 height: 45,
@@ -160,31 +152,45 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
                       //   borderSide: BorderSide(color:Colors.deepPurpleAccent)
                       // ),
                       labelText: "SubCategory Name",
-                      labelStyle: const TextStyle(color: Colors.deepPurpleAccent)
-                  ),
+                      labelStyle:
+                          const TextStyle(color: Colors.deepPurpleAccent)),
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               selectedImage != null
-                  ? Image.file(selectedImage!, width: 200, height: 200, fit: BoxFit.cover,)
-                  : Image.asset("assets/Icons/Images.jpg", width: 200, height: 200),
-
+                  ? Image.file(
+                      selectedImage!,
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset("assets/Icons/Images.jpg",
+                      width: 200, height: 200),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
                     ImagePicker imagePicker = ImagePicker();
-                    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+                    XFile? file = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
                     if (file == null) return;
                     selectedImage = File(file.path);
                     setState(() {});
                   },
-                  style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                  child: const Text("Select Image",style: TextStyle(color: Colors.deepPurpleAccent),),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5))),
+                  child: const Text(
+                    "Select Image",
+                    style: TextStyle(color: Colors.deepPurpleAccent),
+                  ),
                 ),
               ),
-              const SizedBox(height: 20,),
-
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -199,13 +205,15 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
                     ),
                   ),
                   child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white,) // Show the progress indicator
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        ) // Show the progress indicator
                       : const Text(
-                    "Add SubCategory",style: TextStyle(color: Colors.white),
-                  ),
+                          "Add SubCategory",
+                          style: TextStyle(color: Colors.white),
+                        ),
                 ),
               ),
-
             ],
           ),
         ),
@@ -218,7 +226,8 @@ class CategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const CategoryDropdown({required this.selectedCategory, required this.onChanged, super.key});
+  const CategoryDropdown(
+      {required this.selectedCategory, required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -267,4 +276,3 @@ class CategoryDropdown extends StatelessWidget {
     );
   }
 }
-

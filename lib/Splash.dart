@@ -12,22 +12,31 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-User? user=FirebaseAuth.instance.currentUser;
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(const Duration(seconds: 2),currentuser);
+    Timer(const Duration(seconds: 2), currentuser);
   }
-void currentuser(){
-    if(user==null){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login(),));
+
+  void currentuser() {
+    if (user == null) {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Login(),
+          ));
+    } else {
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Home(),
+          ));
     }
-    else{
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Home(),));
-    }
-}
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

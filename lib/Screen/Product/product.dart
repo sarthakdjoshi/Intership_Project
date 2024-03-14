@@ -58,7 +58,7 @@ class _ProductState extends State<Product> {
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream:
-              FirebaseFirestore.instance.collection("Product").snapshots(),
+                  FirebaseFirestore.instance.collection("Product").snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -76,16 +76,15 @@ class _ProductState extends State<Product> {
                       return Card(
                         child: Column(
                           children: [
-
                             Text(
                               user.product_name ?? "",
                               style: const TextStyle(
                                   fontSize: 25, color: Colors.indigo),
                             ),
                             SizedBox(
-                              height: 150, // adjust the height as per your UI requirement
-                              child: Image.network(user.images[0])
-                            ),
+                                height: 150,
+                                // adjust the height as per your UI requirement
+                                child: Image.network(user.images[0])),
                             Text(
                               user.product_price ?? "",
                               style: const TextStyle(
@@ -96,40 +95,54 @@ class _ProductState extends State<Product> {
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    showDialog(context: context, builder:(BuildContext context) {
-                                      return AlertDialog(
-                                          title: const Text("Confirm TO Delete"),
-                                        content: const Text('Are you sure you want to delete this category?'),
-                                        actions: [
-                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: const Text("NO")),
-                                          TextButton(onPressed: (){
-                                            FirebaseFirestore.instance
-                                                .collection("Product")
-                                                .doc(user.id)
-                                                .delete();
-                                            Navigator.of(context).pop();
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  "${user.category} was Deleted",
-                                                ),
-                                                duration:
-                                                const Duration(seconds: 2),
-                                              ),
-
-                                            );
-                                          }, child: const Text("Yes")),
-
-                                        ],
-                                      );
-                                    },);
-
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text("Confirm TO Delete"),
+                                          content: const Text(
+                                              'Are you sure you want to delete this category?'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text("NO")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection("Product")
+                                                      .doc(user.id)
+                                                      .delete();
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        "${user.category} was Deleted",
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text("Yes")),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Text("Delete"),
                                 ),
                                 CupertinoButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Edit_Product(product: user),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Edit_Product(product: user),
+                                        ));
                                   },
                                   child: const Text("Update"),
                                 ),
@@ -149,4 +162,3 @@ class _ProductState extends State<Product> {
     );
   }
 }
-

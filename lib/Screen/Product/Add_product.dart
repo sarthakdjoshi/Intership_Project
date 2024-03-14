@@ -17,7 +17,7 @@ class Add_Product extends StatefulWidget {
 }
 
 class _Add_ProductState extends State<Add_Product> {
-  String imageUrl ='';
+  String imageUrl = '';
   List<File>? selectedImage = [];
   bool isLoading = false;
   String? selectedCategory;
@@ -42,7 +42,10 @@ class _Add_ProductState extends State<Add_Product> {
     if (selectedImage != null) {
       List<String> imageUrls = [];
       for (var imageFile in selectedImage!) {
-        var ref = FirebaseStorage.instance.ref().child("Product").child(const Uuid().v1());
+        var ref = FirebaseStorage.instance
+            .ref()
+            .child("Product")
+            .child(const Uuid().v1());
         try {
           await ref.putFile(imageFile);
           imageUrl = await ref.getDownloadURL();
@@ -54,8 +57,8 @@ class _Add_ProductState extends State<Add_Product> {
       }
       try {
         await FirebaseFirestore.instance.collection("Product").add({
-          "category":selectedCategory.toString(),
-          "Sub_category":selectedSubCategory.toString(),
+          "category": selectedCategory.toString(),
+          "Sub_category": selectedSubCategory.toString(),
           "product_name": product_name.text.trim().toString(),
           "product_price": product_price.text.trim().toString(),
           "discount": discount.text.trim().toString(),
@@ -73,15 +76,14 @@ class _Add_ProductState extends State<Add_Product> {
           "product_all": product_all.text.trim().toString(),
           "images": imageUrls,
         });
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product Added")));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Product Added")));
         print(imageUrls);
       } catch (e) {
         print(e.toString());
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +111,7 @@ class _Add_ProductState extends State<Add_Product> {
                                 child: Image.file(selectedImage![index],
                                     height: 100, width: 100));
                           },
-                        )
-                )
+                        ))
                     : SizedBox(
                         height: 300,
                         width: 300,
@@ -142,8 +143,6 @@ class _Add_ProductState extends State<Add_Product> {
                   onChanged: (value) {
                     setState(() {
                       selectedCategory = value;
-
-
                     });
                   },
                 ),
@@ -153,7 +152,6 @@ class _Add_ProductState extends State<Add_Product> {
                   onChanged: (value) {
                     setState(() {
                       selectedSubCategory = value;
-
                     });
                   },
                 ),
@@ -307,18 +305,16 @@ class _Add_ProductState extends State<Add_Product> {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                     if(selectedImage!=null){
+                      if (selectedImage != null) {
                         add();
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Wait")));
-
-                     }
-                     else{
-                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Choose Image")));
-
-                     }
-
-
-                    }, child: const Text("Add Product"))
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Please Wait")));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Choose Image")));
+                      }
+                    },
+                    child: const Text("Add Product"))
               ],
             ),
           ),
@@ -467,7 +463,6 @@ class SubCategoryDropdown extends StatelessWidget {
           if (subCategory.Category_Name == selectedCategory) {
             subCategories.add(subCategory);
           }
-
         }
 
         return DropdownButtonFormField<String>(

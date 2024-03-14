@@ -65,17 +65,18 @@ class _Category_ScreenState extends State<Category_Screen> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance.collection("Category").snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection("Category").snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
                   return Text("Error:${snapshot.hasError}");
-                }
-                else {
-                  final List<CategoryModel> users = snapshot.data!.docs.map((
-                      doc) => CategoryModel.fromFirestore(doc)).toList();
+                } else {
+                  final List<CategoryModel> users = snapshot.data!.docs
+                      .map((doc) => CategoryModel.fromFirestore(doc))
+                      .toList();
                   return ListView.builder(
                     itemCount: users.length,
                     itemBuilder: (context, index) {
@@ -83,47 +84,69 @@ class _Category_ScreenState extends State<Category_Screen> {
                       return Card(
                         child: Column(
                           children: [
-                            Text(user.Category_Name,style: const TextStyle(fontSize: 25,color: Colors.indigo),),
-                            Image(image: NetworkImage(user.Image),width: 200,height: 200,),
+                            Text(
+                              user.Category_Name,
+                              style: const TextStyle(
+                                  fontSize: 25, color: Colors.indigo),
+                            ),
+                            Image(
+                              image: NetworkImage(user.Image),
+                              width: 200,
+                              height: 200,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    showDialog(context: context, builder:(BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("Confirm TO Delete"),
-                                        content: const Text('Are you sure you want to delete this category?'),
-                                        actions: [
-                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: const Text("NO")),
-                                          TextButton(onPressed: (){
-                                            FirebaseFirestore.instance
-                                                .collection("Category")
-                                                .doc(user.id)
-                                                .delete();
-                                            Navigator.of(context).pop();
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  "${user.Category_Name} was Deleted",
-                                                ),
-                                                duration:
-                                                const Duration(seconds: 2),
-                                              ),
-
-                                            );
-                                          }, child: const Text("Yes")),
-
-                                        ],
-                                      );
-                                    },);
-
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text("Confirm TO Delete"),
+                                          content: const Text(
+                                              'Are you sure you want to delete this category?'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text("NO")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection("Category")
+                                                      .doc(user.id)
+                                                      .delete();
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        "${user.Category_Name} was Deleted",
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text("Yes")),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Text("Delete"),
                                 ),
                                 CupertinoButton(
                                   onPressed: () {
-                                    Navigator.push(context,MaterialPageRoute(builder: (context) =>Edit_Category(category: user,)));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Edit_Category(
+                                                  category: user,
+                                                )));
                                   },
                                   child: const Text("Update"),
                                 ),

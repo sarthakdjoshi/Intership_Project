@@ -9,11 +9,12 @@ import '../../../Model/category-model.dart';
 class Edit_Sub_Category extends StatefulWidget {
   Sub_CategoryModel name1;
 
-  Edit_Sub_Category({super.key,required this.name1 });
+  Edit_Sub_Category({super.key, required this.name1});
 
   @override
   State<Edit_Sub_Category> createState() => _Edit_Sub_CategoryState();
 }
+
 class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
   String? selectedCategory;
   var name = TextEditingController();
@@ -21,26 +22,28 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
   var uniquefilename = DateTime.now().millisecondsSinceEpoch.toString();
   var imageurl = "";
   bool isloading = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    name.text=widget.name1.Sub_Category;
-    selectedCategory=widget.name1.Category_Name;
-}
+    name.text = widget.name1.Sub_Category;
+    selectedCategory = widget.name1.Category_Name;
+  }
+
   Future<void> UpdateData() async {
     setState(() {
-      isloading   = true;
+      isloading = true;
     });
 
     try {
       String imageUrl = widget.name1.Image; // Default to existing image
-      if (profilepic  != null) {
+      if (profilepic != null) {
         Reference ref = FirebaseStorage.instance
             .ref()
             .child("Category")
             .child(DateTime.now().millisecondsSinceEpoch.toString());
-        await ref.putFile(profilepic !);
+        await ref.putFile(profilepic!);
         imageUrl = await ref.getDownloadURL();
       }
 
@@ -49,8 +52,8 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
           .collection("Sub-Category")
           .doc(widget.name1.id)
           .update({
-        "Category_Name":selectedCategory.toString(),
-        "Sub_Category":name.text.trim().toString(),
+        "Category_Name": selectedCategory.toString(),
+        "Sub_Category": name.text.trim().toString(),
         "Image": imageUrl,
       });
 
@@ -60,7 +63,7 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
           duration: Duration(seconds: 2),
         ),
       );
-     } catch (error) {
+    } catch (error) {
       print("Error updating category: $error");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -70,11 +73,10 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
       );
     } finally {
       setState(() {
-        isloading   = false;
+        isloading = false;
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +90,8 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -107,7 +110,8 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                           selectedCategory = value;
                         });
                       },
-                    ),    TextField(
+                    ),
+                    TextField(
                       controller: name,
                       decoration: InputDecoration(
                         hintText: "Enter Name",
@@ -124,8 +128,16 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                       height: 10,
                     ),
                     (profilepic != null)
-                        ? Image.file(profilepic!,width: 200,height: 200,)
-                        : Image.network(widget.name1.Image,width: 200,height: 200,),
+                        ? Image.file(
+                            profilepic!,
+                            width: 200,
+                            height: 200,
+                          )
+                        : Image.network(
+                            widget.name1.Image,
+                            width: 200,
+                            height: 200,
+                          ),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -171,12 +183,12 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                               borderRadius: BorderRadius.zero,
                             ),
                             backgroundColor: Colors.indigo),
-                        child: (isloading  )
+                        child: (isloading)
                             ? const CircularProgressIndicator()
                             : const Text(
-                          "Update",
-                          style: TextStyle(color: Colors.white),
-                        ),
+                                "Update",
+                                style: TextStyle(color: Colors.white),
+                              ),
                       ),
                     ),
                   ],
@@ -187,11 +199,13 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
         ));
   }
 }
+
 class CategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const CategoryDropdown({required this.selectedCategory, required this.onChanged, super.key});
+  const CategoryDropdown(
+      {required this.selectedCategory, required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {

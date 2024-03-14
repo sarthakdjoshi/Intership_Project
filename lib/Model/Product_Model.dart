@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-class Product_Model{
+
+class Product_Model {
   final String id;
   final List<dynamic> images;
   final String category;
   final String Sub_category;
   final String product_price;
   final String product_name;
-
 
   Product_Model({
     required this.id,
@@ -17,7 +17,8 @@ class Product_Model{
     required this.product_name,
   });
 
-  factory Product_Model.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory Product_Model.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return Product_Model(
       id: snapshot.id,
@@ -25,9 +26,7 @@ class Product_Model{
       images: data['images'],
       Sub_category: data['Sub_category'],
       product_price: data['product_price'],
-      product_name:data['product_name'],
+      product_name: data['product_name'],
     );
   }
 }
-
-

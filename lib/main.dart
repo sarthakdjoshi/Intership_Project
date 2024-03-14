@@ -2,8 +2,10 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:pratice/Screen/Provider.dart';
 import 'package:pratice/Splash.dart';
 import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,8 @@ void main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (BuildContext context) => ThemeProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -31,10 +34,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: Provider.of<ThemeProvider>(context).currentTheme,
       home: const Splash(),
     );
   }

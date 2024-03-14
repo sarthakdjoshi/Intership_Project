@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pratice/Model/Banner_model.dart';
+
 class Edit_Banner extends StatefulWidget {
   final Banner_Model banner;
 
@@ -22,18 +23,17 @@ class _Edit_BannerState extends State<Edit_Banner> {
   bool isloading = false;
 
   Future<void> UpdateData() async {
-    setState(() {
-    });
-      isloading   = true;
+    setState(() {});
+    isloading = true;
 
     try {
       String imageUrl = widget.banner.Image; // Default to existing image
-      if (profilepic  != null) {
+      if (profilepic != null) {
         Reference ref = FirebaseStorage.instance
             .ref()
             .child("Category")
             .child(DateTime.now().millisecondsSinceEpoch.toString());
-        await ref.putFile(profilepic !);
+        await ref.putFile(profilepic!);
         imageUrl = await ref.getDownloadURL();
       }
 
@@ -42,7 +42,7 @@ class _Edit_BannerState extends State<Edit_Banner> {
           .collection("Banner")
           .doc(widget.banner.id)
           .update({
-        "Banner_Name":name.text.trim().toString(),
+        "Banner_Name": name.text.trim().toString(),
         "Image": imageUrl,
       });
 
@@ -62,10 +62,11 @@ class _Edit_BannerState extends State<Edit_Banner> {
       );
     } finally {
       setState(() {
-        isloading   = false;
+        isloading = false;
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -115,16 +116,17 @@ class _Edit_BannerState extends State<Edit_Banner> {
                 (profilepic == null)
                     ? Image.network(imageurl)
                     : SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Image.file(profilepic!),
-                ),
+                        width: 200,
+                        height: 200,
+                        child: Image.file(profilepic!),
+                      ),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
                       try {
-                        XFile? selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+                        XFile? selectedImage = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
                         if (selectedImage != null) {
                           print("Image");
                           File cf = File(selectedImage.path);
@@ -139,7 +141,8 @@ class _Edit_BannerState extends State<Edit_Banner> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero),
                       backgroundColor: Colors.white70,
                     ),
                     child: const Text(
@@ -163,12 +166,12 @@ class _Edit_BannerState extends State<Edit_Banner> {
                           borderRadius: BorderRadius.zero,
                         ),
                         backgroundColor: Colors.indigo),
-                    child: (isloading  )
+                    child: (isloading)
                         ? const CircularProgressIndicator()
                         : const Text(
-                      "Update",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                            "Update",
+                            style: TextStyle(color: Colors.white),
+                          ),
                   ),
                 )
               ],
@@ -179,4 +182,3 @@ class _Edit_BannerState extends State<Edit_Banner> {
     );
   }
 }
-

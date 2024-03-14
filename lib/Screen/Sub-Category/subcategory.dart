@@ -5,6 +5,7 @@ import 'package:pratice/Screen/Sub-Category/Add_Sub-Category.dart';
 import 'package:pratice/Screen/Sub-Category/edit_sub_category.dart';
 
 import '../../Model/Sub-Category-Model.dart';
+
 class Sub_Category extends StatefulWidget {
   const Sub_Category({super.key});
 
@@ -13,8 +14,6 @@ class Sub_Category extends StatefulWidget {
 }
 
 class _Sub_CategoryState extends State<Sub_Category> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,26 +22,37 @@ class _Sub_CategoryState extends State<Sub_Category> {
         backgroundColor: Colors.indigo,
         centerTitle: true,
         actions: [
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const AddSubCategoryScreen(),));
-          }, icon: const Icon(Icons.add,size: 23,))
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AddSubCategoryScreen(),
+                    ));
+              },
+              icon: const Icon(
+                Icons.add,
+                size: 23,
+              ))
         ],
       ),
       body: Column(
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance.collection("Sub-Category").snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection("Sub-Category")
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
                   return Text("Error:${snapshot.hasError}");
-                }
-                else {
-                  final List<Sub_CategoryModel> users = snapshot.data!.docs.map((
-                      doc) => Sub_CategoryModel.fromFirestore(doc)).toList();
+                } else {
+                  final List<Sub_CategoryModel> users = snapshot.data!.docs
+                      .map((doc) => Sub_CategoryModel.fromFirestore(doc))
+                      .toList();
                   return ListView.builder(
                     itemCount: users.length,
                     itemBuilder: (context, index) {
@@ -50,47 +60,70 @@ class _Sub_CategoryState extends State<Sub_Category> {
                       return Card(
                         child: Column(
                           children: [
-                            Text(user.Sub_Category,style: const TextStyle(fontSize: 25,color: Colors.indigo),),
-                            Image(image: NetworkImage(user.Image),width: 200,height: 200,),
+                            Text(
+                              user.Sub_Category,
+                              style: const TextStyle(
+                                  fontSize: 25, color: Colors.indigo),
+                            ),
+                            Image(
+                              image: NetworkImage(user.Image),
+                              width: 200,
+                              height: 200,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 CupertinoButton(
                                   onPressed: () {
-                                    showDialog(context: context, builder:(BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Text("Confirm TO Delete"),
-                                        content: const Text('Are you sure you want to delete this category?'),
-                                        actions: [
-                                          TextButton(onPressed: (){   Navigator.of(context).pop();}, child: const Text("NO")),
-                                          TextButton(onPressed: (){
-                                            FirebaseFirestore.instance
-                                                .collection("Sub-Category")
-                                                .doc(user.id)
-                                                .delete();
-                                            Navigator.of(context).pop();
-                                            ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  "${user.Sub_Category} was Deleted",
-                                                ),
-                                                duration:
-                                                const Duration(seconds: 2),
-                                              ),
-
-                                            );
-                                          }, child: const Text("Yes")),
-
-                                        ],
-                                      );
-                                    },);
-
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title:
+                                              const Text("Confirm TO Delete"),
+                                          content: const Text(
+                                              'Are you sure you want to delete this category?'),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text("NO")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  FirebaseFirestore.instance
+                                                      .collection(
+                                                          "Sub-Category")
+                                                      .doc(user.id)
+                                                      .delete();
+                                                  Navigator.of(context).pop();
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        "${user.Sub_Category} was Deleted",
+                                                      ),
+                                                      duration: const Duration(
+                                                          seconds: 2),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text("Yes")),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Text("Delete"),
                                 ),
                                 CupertinoButton(
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Edit_Sub_Category(name1: user),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Edit_Sub_Category(name1: user),
+                                        ));
                                   },
                                   child: const Text("Update"),
                                 ),
@@ -110,5 +143,3 @@ class _Sub_CategoryState extends State<Sub_Category> {
     );
   }
 }
-
-

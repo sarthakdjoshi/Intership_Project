@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-class Sub_CategoryModel{
+
+class Sub_CategoryModel {
   final String id;
   final String Image;
   final String Category_Name;
   final String Sub_Category;
-
 
   Sub_CategoryModel({
     required this.id,
@@ -13,7 +13,8 @@ class Sub_CategoryModel{
     required this.Sub_Category,
   });
 
-  factory Sub_CategoryModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory Sub_CategoryModel.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return Sub_CategoryModel(
       id: snapshot.id,
@@ -23,5 +24,3 @@ class Sub_CategoryModel{
     );
   }
 }
-
-

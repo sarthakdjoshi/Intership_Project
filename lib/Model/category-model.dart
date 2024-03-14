@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CategoryModel {
   final String? id;
   final String Image;
   final String Category_Name;
-
 
   CategoryModel({
     required this.id,
@@ -20,6 +20,4 @@ class CategoryModel {
       Image: data['Image'],
     );
   }
-
 }
-

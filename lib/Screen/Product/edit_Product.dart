@@ -12,6 +12,7 @@ import '../../Model/Product_Model.dart';
 
 class Edit_Product extends StatefulWidget {
   final Product_Model product;
+
   const Edit_Product({super.key, required this.product});
 
   @override
@@ -38,7 +39,10 @@ class _Edit_ProductState extends State<Edit_Product> {
 
       if (selectedImage != null) {
         for (File imageFile in selectedImage!) {
-          var ref = FirebaseStorage.instance.ref().child("Product").child(const Uuid().v1());
+          var ref = FirebaseStorage.instance
+              .ref()
+              .child("Product")
+              .child(const Uuid().v1());
           await ref.putFile(imageFile);
           imageUrl = await ref.getDownloadURL();
           print("Image Url: $imageUrl");
@@ -58,11 +62,19 @@ class _Edit_ProductState extends State<Edit_Product> {
         updatedData["images"] = imageUrls;
       }
 
-      await FirebaseFirestore.instance.collection("Product").doc(widget.product.id).update(updatedData);
+      await FirebaseFirestore.instance
+          .collection("Product")
+          .doc(widget.product.id)
+          .update(updatedData);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Product(),));
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Product(),
+          ));
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product Updated")));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Product Updated")));
       print(imageUrls);
     } catch (e) {
       print(e.toString());
@@ -72,7 +84,6 @@ class _Edit_ProductState extends State<Edit_Product> {
       });
     }
   }
-
 
   @override
   void initState() {
@@ -99,38 +110,42 @@ class _Edit_ProductState extends State<Edit_Product> {
             children: [
               (selectedImage != null)
                   ? SizedBox(
-                height: 300,
-                width: 300,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: selectedImage?.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: (abc)
-                          ? Image.file(selectedImage![index], height: 100, width: 100)
-                          : Image.network(widget.product.images[index]),
-                    );
-                  },
-                ),
-              )
+                      height: 300,
+                      width: 300,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: selectedImage?.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: (abc)
+                                ? Image.file(selectedImage![index],
+                                    height: 100, width: 100)
+                                : Image.network(widget.product.images[index]),
+                          );
+                        },
+                      ),
+                    )
                   : SizedBox(
-                height: 300,
-                width: 300,
-                child: Image.asset("assets/Icons/Images.jpg"),
-              ),
+                      height: 300,
+                      width: 300,
+                      child: Image.asset("assets/Icons/Images.jpg"),
+                    ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
                     ImagePicker imagePicker = ImagePicker();
                     List<XFile>? file = await imagePicker.pickMultiImage();
-                    selectedImage = file.map((file) => File(file.path)).toList();
+                    selectedImage =
+                        file.map((file) => File(file.path)).toList();
                     setState(() {
                       print(selectedImage);
                     });
                   },
-                  style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5))),
                   child: const Text(
                     "Select Image",
                     style: TextStyle(color: Colors.deepPurpleAccent),
@@ -142,7 +157,8 @@ class _Edit_ProductState extends State<Edit_Product> {
                 onChanged: (value) {
                   setState(() {
                     selectedCategory = value;
-                    selectedSubCategory = null; // Reset selected subcategory when category changes
+                    selectedSubCategory =
+                        null; // Reset selected subcategory when category changes
                   });
                 },
               ),
@@ -176,9 +192,11 @@ class _Edit_ProductState extends State<Edit_Product> {
                 onPressed: () {
                   if (selectedImage != null) {
                     add();
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please Wait")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Please Wait")));
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Choose Image")));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Choose Image")));
                   }
                 },
                 child: const Text("Update Product"),
@@ -195,7 +213,8 @@ class CategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const CategoryDropdown({required this.selectedCategory, required this.onChanged, super.key});
+  const CategoryDropdown(
+      {required this.selectedCategory, required this.onChanged, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +269,11 @@ class SubCategoryDropdown extends StatelessWidget {
   final String? selectedCategory;
   final ValueChanged<String?> onChanged;
 
-  const SubCategoryDropdown({required this.selectedSubCategory, required this.selectedCategory, required this.onChanged, super.key});
+  const SubCategoryDropdown(
+      {required this.selectedSubCategory,
+      required this.selectedCategory,
+      required this.onChanged,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -268,7 +291,8 @@ class SubCategoryDropdown extends StatelessWidget {
           final subCategory = Sub_CategoryModel.fromFirestore(doc);
 
           // Filter subcategories based on the selected category
-          if (selectedCategory == null || subCategory.Category_Name == selectedCategory) {
+          if (selectedCategory == null ||
+              subCategory.Category_Name == selectedCategory) {
             subCategories.add(subCategory);
           }
         }
