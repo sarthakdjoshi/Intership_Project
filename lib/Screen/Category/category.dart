@@ -45,7 +45,6 @@ class _CategoryState extends State<Category> {
             duration: Duration(seconds: 2),
           ));
         });
-
       } catch (e) {
         print(e.toString());
       }
@@ -147,8 +146,6 @@ class _CategoryState extends State<Category> {
                             const SnackBar(content: Text("Choose Photo")));
                       } else {
                         adddata();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text("Category added With Name=$Name")));
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -157,7 +154,9 @@ class _CategoryState extends State<Category> {
                         ),
                         backgroundColor: Colors.indigo),
                     child: (isloading)
-                        ? const CircularProgressIndicator(color: Colors.white,)
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
                         : const Text(
                             "Add",
                             style: TextStyle(color: Colors.white),
