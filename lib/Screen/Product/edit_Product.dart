@@ -162,6 +162,7 @@ class _Edit_ProductState extends State<Edit_Product> {
                   });
                 },
               ),
+              SizedBox(height: 10,),
               SubCategoryDropdown(
                 selectedCategory: selectedCategory,
                 selectedSubCategory: selectedSubCategory,
@@ -248,7 +249,7 @@ class CategoryDropdown extends StatelessWidget {
               value: category.Category_Name,
               child: Text(
                 category.Category_Name,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.indigo),
               ),
             );
           }).toList(),
@@ -311,7 +312,7 @@ class SubCategoryDropdown extends StatelessWidget {
               value: subCategory.Sub_Category,
               child: Text(
                 subCategory.Sub_Category,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.indigo),
               ),
             );
           }).toList(),

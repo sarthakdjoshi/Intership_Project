@@ -83,7 +83,7 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Edit Your Sub Categories"),
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.indigo,
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -95,11 +95,6 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Edit Your Sub-Category",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.w900)),
                     const SizedBox(
                       height: 10,
                     ),
@@ -111,6 +106,7 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                         });
                       },
                     ),
+                    SizedBox(height: 10,),
                     TextField(
                       controller: name,
                       decoration: InputDecoration(
@@ -239,7 +235,7 @@ class CategoryDropdown extends StatelessWidget {
               value: category.Category_Name,
               child: Text(
                 category.Category_Name,
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.indigo),
               ),
             );
           }).toList(),

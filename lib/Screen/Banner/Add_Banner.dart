@@ -56,7 +56,7 @@ class _Add_BannerState extends State<Add_Banner> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Add_Banner"),
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.indigo,
           centerTitle: true,
         ),
         body: Center(
@@ -66,11 +66,7 @@ class _Add_BannerState extends State<Add_Banner> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Add Your Banner Name",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.indigo,
-                        fontWeight: FontWeight.w900)),
+
                 const SizedBox(
                   height: 10,
                 ),

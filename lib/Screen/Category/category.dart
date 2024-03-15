@@ -56,7 +56,7 @@ class _CategoryState extends State<Category> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Categories"),
-          backgroundColor: Colors.lightGreenAccent,
+          backgroundColor: Colors.indigo,
           centerTitle: true,
         ),
         body: Center(

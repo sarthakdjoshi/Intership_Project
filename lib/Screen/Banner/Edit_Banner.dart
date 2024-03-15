@@ -79,7 +79,7 @@ class _Edit_BannerState extends State<Edit_Banner> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit_Banner"),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: Colors.indigo,
         centerTitle: true,
       ),
       body: Center(
@@ -89,12 +89,7 @@ class _Edit_BannerState extends State<Edit_Banner> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Edit Your Banner Name",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.indigo,
-                        fontWeight: FontWeight.w900)),
-                const SizedBox(
+              const SizedBox(
                   height: 10,
                 ),
                 TextField(

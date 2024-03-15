@@ -160,7 +160,7 @@ class _HomeState extends State<Home> {
                             ),
                             Text(
                               Names[index],
-                              style: const TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20,color: Colors.black),
                             ),
                           ],
                         ),

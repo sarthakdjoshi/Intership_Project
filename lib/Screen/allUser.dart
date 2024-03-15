@@ -13,7 +13,7 @@ class _All_UsersState extends State<All_Users> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("All-User"),
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.indigo,
         centerTitle: true,
       ),
       body: const Center(
