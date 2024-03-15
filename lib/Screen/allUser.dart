@@ -12,7 +12,7 @@ class _All_UsersState extends State<All_Users> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("All-User"),
+        title: const Text("All_User"),
         backgroundColor: Colors.indigo,
         centerTitle: true,
       ),
