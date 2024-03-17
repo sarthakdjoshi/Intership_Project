@@ -70,6 +70,7 @@ class _BannersState extends State<Banners> {
                   final List<Banner_Model> users = snapshot.data!.docs
                       .map((doc) => Banner_Model.fromFirestore(doc))
                       .toList();
+                  final List<Banner_Model> abc=snapshot.data!.docs.map((doc) =>Banner_Model.fromFirestore(doc)).toList();
                   return ListView.builder(
                     itemCount: users.length,
                     itemBuilder: (context, index) {

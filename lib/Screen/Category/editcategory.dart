@@ -154,7 +154,10 @@ class _Edit_CategoryState extends State<Edit_Category> {
                                 borderRadius: BorderRadius.zero,
                               ),
                               backgroundColor: Colors.white70),
-                          child: const Text("Select Image",style: TextStyle(color: Colors.black),),
+                          child: const Text(
+                            "Select Image",
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 20),

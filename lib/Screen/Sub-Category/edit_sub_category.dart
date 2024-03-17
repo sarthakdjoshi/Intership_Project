@@ -106,7 +106,9 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                         });
                       },
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     TextField(
                       controller: name,
                       decoration: InputDecoration(

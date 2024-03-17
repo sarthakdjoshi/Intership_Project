@@ -66,7 +66,6 @@ class _Add_BannerState extends State<Add_Banner> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 const SizedBox(
                   height: 10,
                 ),

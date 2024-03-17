@@ -89,7 +89,7 @@ class _Edit_BannerState extends State<Edit_Banner> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-              const SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextField(

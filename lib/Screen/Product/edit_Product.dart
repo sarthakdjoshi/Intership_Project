@@ -28,6 +28,19 @@ class _Edit_ProductState extends State<Edit_Product> {
   String? selectedSubCategory;
   var product_name = TextEditingController();
   var product_price = TextEditingController();
+  var discount = TextEditingController();
+  var product_newprice = TextEditingController();
+  var product_color = TextEditingController();
+  var product_title1 = TextEditingController();
+  var product_title1_delail = TextEditingController();
+  var product_title2 = TextEditingController();
+  var product_title2_delail = TextEditingController();
+  var product_title3 = TextEditingController();
+  var product_title3_delail = TextEditingController();
+  var product_title4 = TextEditingController();
+  var product_title4_delail = TextEditingController();
+  var product_desc = TextEditingController();
+  var product_all = TextEditingController();
 
   Future<void> add() async {
     setState(() {
@@ -55,6 +68,19 @@ class _Edit_ProductState extends State<Edit_Product> {
         "Sub_category": selectedSubCategory.toString(),
         "product_name": product_name.text.trim().toString(),
         "product_price": product_price.text.trim().toString(),
+        "discount": discount.text.trim().toString(),
+        "product_newprice": product_newprice.text.trim().toString(),
+        "product_color": product_color.text.trim().toString(),
+        "product_title1": product_title1.text.trim().toString(),
+        "product_title1_delail": product_title1_delail.text.trim().toString(),
+        "product_title2": product_title2.text.trim().toString(),
+        "product_title2_delail": product_title2_delail.text.trim().toString(),
+        "product_title3": product_title3.text.trim().toString(),
+        "product_title3_delail": product_title3_delail.text.trim().toString(),
+        "product_title4": product_title4.text.trim().toString(),
+        "product_title4_delail": product_title4_delail.text.trim().toString(),
+        "product_desc": product_desc.text.trim().toString(),
+        "product_all": product_all.text.trim().toString(),
         if (imageUrls.isNotEmpty) 'images': imageUrls,
       };
 
@@ -93,7 +119,20 @@ class _Edit_ProductState extends State<Edit_Product> {
     selectedSubCategory = widget.product.Sub_category;
     product_name.text = widget.product.product_name;
     product_price.text = widget.product.product_price;
-  }
+    product_newprice.text=widget.product.product_newprice;
+    product_color.text=widget.product.product_color;
+    product_title4.text=widget.product.product_title4;
+    product_title4_delail.text=widget.product.product_title4_delail;
+    product_title3.text=widget.product.product_title3;
+    product_title3_delail.text=widget.product.product_title3_delail;
+    product_title2.text=widget.product.product_title2;
+    product_title2_delail.text=widget.product.product_title2_delail;
+    product_title1.text=widget.product.product_title1;
+    product_title1_delail.text=widget.product.product_title1_delail;
+    product_all.text=widget.product .product_all;
+    product_desc.text=widget.product.product_desc;
+    discount.text=widget.product.discount;
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -108,29 +147,38 @@ class _Edit_ProductState extends State<Edit_Product> {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             children: [
-              (selectedImage != null)
+              (selectedImage != null && selectedImage!.isNotEmpty)
                   ? SizedBox(
-                      height: 300,
-                      width: 300,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: selectedImage?.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: (abc)
-                                ? Image.file(selectedImage![index],
-                                    height: 100, width: 100)
-                                : Image.network(widget.product.images[index]),
-                          );
-                        },
-                      ),
-                    )
+                height: 300,
+                width: 300,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: selectedImage!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Image.file(selectedImage![index],
+                          height: 100, width: 100),
+                    );
+                  },
+                ),
+              )
                   : SizedBox(
-                      height: 300,
-                      width: 300,
-                      child: Image.asset("assets/Icons/Images.jpg"),
-                    ),
+                height: 300,
+                width: 300,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: widget.product.images.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Image.network(widget.product.images[index],
+                          height: 100, width: 100),
+                    );
+                  },
+                ),
+              ),
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -141,6 +189,7 @@ class _Edit_ProductState extends State<Edit_Product> {
                         file.map((file) => File(file.path)).toList();
                     setState(() {
                       print(selectedImage);
+                      abc=true;
                     });
                   },
                   style: ElevatedButton.styleFrom(
@@ -162,7 +211,9 @@ class _Edit_ProductState extends State<Edit_Product> {
                   });
                 },
               ),
-              SizedBox(height: 10,),
+              SizedBox(
+                height: 10,
+              ),
               SubCategoryDropdown(
                 selectedCategory: selectedCategory,
                 selectedSubCategory: selectedSubCategory,
@@ -179,6 +230,147 @@ class _Edit_ProductState extends State<Edit_Product> {
                   hintText: "Product Name",
                   border: OutlineInputBorder(borderRadius: BorderRadius.zero),
                 ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_price,
+                decoration: const InputDecoration(
+                    hintText: "Product Price",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: discount,
+                decoration: const InputDecoration(
+                    hintText: "Discount",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_newprice,
+                decoration: const InputDecoration(
+                    hintText: "Product New Price",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_color,
+                decoration: const InputDecoration(
+                    hintText: "Product Colour",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title1,
+                decoration: const InputDecoration(
+                    hintText: "Product Title1",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title1_delail,
+                decoration: const InputDecoration(
+                    hintText: "Title1 Detail",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title2,
+                decoration: const InputDecoration(
+                    hintText: "Product Title2",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title2_delail,
+                decoration: const InputDecoration(
+                    hintText: "Title2 Detail",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title3,
+                decoration: const InputDecoration(
+                    hintText: "Product Title3",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title3_delail,
+                decoration: const InputDecoration(
+                    hintText: "Title3 Detail",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title4,
+                decoration: const InputDecoration(
+                    hintText: "Product Title4",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_title4_delail,
+                decoration: const InputDecoration(
+                    hintText: "Title 4 Detail",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_all,
+                decoration: const InputDecoration(
+                    hintText: "Product All Detail",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: product_desc,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                    hintText: "Enter Description",
+                    border:
+                        OutlineInputBorder(borderRadius: BorderRadius.zero)),
               ),
               const SizedBox(height: 10),
               TextField(

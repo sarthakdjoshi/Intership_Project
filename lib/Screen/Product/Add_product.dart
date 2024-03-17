@@ -146,7 +146,9 @@ class _Add_ProductState extends State<Add_Product> {
                     });
                   },
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 SubCategoryDropdown(
                   selectedCategory: selectedCategory,
                   selectedSubCategory: selectedSubCategory,
@@ -226,7 +228,9 @@ class _Add_ProductState extends State<Add_Product> {
                       border:
                           OutlineInputBorder(borderRadius: BorderRadius.zero)),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 TextField(
                   controller: product_title2,
                   decoration: const InputDecoration(
