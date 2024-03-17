@@ -3,7 +3,7 @@ import 'package:ecommerce_admin/Model/User_Model.dart';
 import 'package:flutter/material.dart';
 
 class All_Users extends StatefulWidget {
-  const All_Users({Key? key}) : super(key: key);
+  const All_Users({super.key});
 
   @override
   State<All_Users> createState() => _All_UsersState();
@@ -27,7 +27,7 @@ class _All_UsersState extends State<All_Users> {
           if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           } else if (snapshot.data == null) {
-            return Text("No data available");
+            return const Text("No data available");
           } else {
             final List<User_Model> users = snapshot.data!.docs
                 .map((doc) => User_Model.fromFirestore(doc))
@@ -37,18 +37,18 @@ class _All_UsersState extends State<All_Users> {
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 var user = users[index];
-                return Container(
+                return SizedBox(
                   width: 300,
                   child: InkWell(
                     onTap: () {},
                     child: ListTile(
                       title: Text(
                         user.Name,
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                       subtitle: Text(
                         user.Mobile,
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                       leading: CircleAvatar(
                         backgroundImage: NetworkImage(user.imageurl),
@@ -92,7 +92,7 @@ class _All_UsersState extends State<All_Users> {
                             },
                           );
                         },
-                        icon: Icon(Icons.delete),
+                        icon: const Icon(Icons.delete),
                       ),
                     ),
                   ),

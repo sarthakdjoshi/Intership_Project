@@ -106,7 +106,7 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
                         });
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     TextField(
