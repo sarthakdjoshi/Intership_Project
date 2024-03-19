@@ -75,6 +75,7 @@ class _Add_ProductState extends State<Add_Product> {
           "product_desc": product_desc.text.trim().toString(),
           "product_all": product_all.text.trim().toString(),
           "images": imageUrls,
+          "fav":"no"
         });
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Product Added")));
