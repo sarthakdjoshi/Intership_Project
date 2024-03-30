@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce_admin/Screen/Sub-Category/Add_Sub-Category.dart';
 import 'package:ecommerce_admin/Screen/Sub-Category/edit_sub_category.dart';
 
+import '../../Appcolor.dart';
 import '../../Model/Sub-Category-Model.dart';
 
 class Sub_Category extends StatefulWidget {
@@ -19,7 +20,7 @@ class _Sub_CategoryState extends State<Sub_Category> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Sub-Category"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
         actions: [
           IconButton(

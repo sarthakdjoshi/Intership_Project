@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../Appcolor.dart';
+
 class Category extends StatefulWidget {
   const Category({super.key});
 
@@ -56,7 +58,7 @@ class _CategoryState extends State<Category> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Categories"),
-          backgroundColor: Colors.indigo,
+          backgroundColor: AppColors.lightBlue,
           centerTitle: true,
         ),
         body: Center(

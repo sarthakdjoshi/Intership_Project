@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce_admin/Model/category-model.dart';
 import 'package:ecommerce_admin/Screen/Category/editcategory.dart';
 
+import '../../Appcolor.dart';
 import 'category.dart';
 
 class Category_Screen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _Category_ScreenState extends State<Category_Screen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Category"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
         actions: [
           ElevatedButton(

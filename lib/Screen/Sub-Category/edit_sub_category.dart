@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/Model/Sub-Category-Model.dart';
 import '../../../Model/category-model.dart';
+import '../../Appcolor.dart';
 
 class Edit_Sub_Category extends StatefulWidget {
   Sub_CategoryModel name1;
@@ -83,7 +84,7 @@ class _Edit_Sub_CategoryState extends State<Edit_Sub_Category> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Edit Your Sub Categories"),
-          backgroundColor: Colors.indigo,
+          backgroundColor: AppColors.lightBlue,
           centerTitle: true,
         ),
         body: SingleChildScrollView(

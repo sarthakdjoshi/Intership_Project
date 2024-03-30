@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/Model/Banner_model.dart';
 
+import '../../Appcolor.dart';
+
 class Edit_Banner extends StatefulWidget {
   final Banner_Model banner;
 
@@ -79,7 +81,7 @@ class _Edit_BannerState extends State<Edit_Banner> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit_Banner"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
       ),
       body: Center(

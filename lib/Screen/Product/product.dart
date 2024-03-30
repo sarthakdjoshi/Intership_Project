@@ -5,6 +5,8 @@ import 'package:ecommerce_admin/Model/Product_Model.dart';
 import 'package:ecommerce_admin/Screen/Product/Add_product.dart';
 import 'package:ecommerce_admin/Screen/Product/edit_Product.dart';
 
+import '../../Appcolor.dart';
+
 class Product extends StatefulWidget {
   const Product({super.key});
 
@@ -18,7 +20,7 @@ class _ProductState extends State<Product> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Product"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
         actions: [
           IconButton(

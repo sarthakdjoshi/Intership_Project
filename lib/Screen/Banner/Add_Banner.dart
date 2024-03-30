@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../Appcolor.dart';
+
 class Add_Banner extends StatefulWidget {
   const Add_Banner({super.key});
 
@@ -56,7 +58,7 @@ class _Add_BannerState extends State<Add_Banner> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Add_Banner"),
-          backgroundColor: Colors.indigo,
+          backgroundColor: AppColors.lightBlue,
           centerTitle: true,
         ),
         body: Center(

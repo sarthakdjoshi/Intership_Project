@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:ecommerce_admin/home.dart';
 import 'package:ecommerce_admin/signup.dart';
 
+import 'Appcolor.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -20,7 +22,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login Page"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
       ),
       body: Center(

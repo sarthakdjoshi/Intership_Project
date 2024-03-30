@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/Screen/Category/categoryscreen.dart';
 
+import '../../Appcolor.dart';
 import '../../Model/category-model.dart';
 
 class Edit_Category extends StatefulWidget {
@@ -60,8 +61,8 @@ class _Edit_CategoryState extends State<Edit_Category> {
           duration: Duration(seconds: 2),
         ),
       );
+      Navigator.of(context).popUntil((route) => route.isFirst);
 
-      // Navigate back to category screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const Category_Screen()),
@@ -86,7 +87,7 @@ class _Edit_CategoryState extends State<Edit_Category> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Edit Category"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
       ),
       body: Column(

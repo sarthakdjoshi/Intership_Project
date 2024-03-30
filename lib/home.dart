@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/Appcolor.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_admin/Screen/Category/categoryscreen.dart';
@@ -48,7 +49,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Welcome"),
-          backgroundColor: Colors.blue,
+          backgroundColor: AppColors.lightBlue,
           centerTitle: true,
         ),
         drawer: Drawer(

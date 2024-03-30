@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
+import '../../Appcolor.dart';
 import '../../Model/category-model.dart';
 
 class AddSubCategoryScreen extends StatefulWidget {
@@ -111,7 +112,7 @@ class _AddSubCategoryScreenState extends State<AddSubCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
+        backgroundColor: AppColors.lightBlue,
         title: const Text(
           'Add SubCategory',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

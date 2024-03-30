@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/Model/User_Model.dart';
 import 'package:flutter/material.dart';
 
+import '../Appcolor.dart';
+
 class All_Users extends StatefulWidget {
   const All_Users({super.key});
 
@@ -15,7 +17,7 @@ class _All_UsersState extends State<All_Users> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("All_User"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

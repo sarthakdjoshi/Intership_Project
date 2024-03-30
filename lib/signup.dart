@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_admin/login.dart';
 
+import 'Appcolor.dart';
+
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
@@ -20,7 +22,7 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Signup"),
-        backgroundColor: Colors.cyanAccent,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
       ),
       body: Center(

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/Screen/Banner/Edit_Banner.dart';
 import 'package:ecommerce_admin/Model/Banner_model.dart';
 
+import '../../Appcolor.dart';
 import 'Add_Banner.dart';
 
 class Banners extends StatefulWidget {
@@ -19,7 +20,7 @@ class _BannersState extends State<Banners> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Bannerss"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
         centerTitle: true,
         actions: [
           IconButton(

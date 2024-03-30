@@ -8,6 +8,7 @@ import 'package:ecommerce_admin/Screen/Product/product.dart';
 import 'package:uuid/uuid.dart';
 import 'dart:io';
 
+import '../../Appcolor.dart';
 import '../../Model/Product_Model.dart';
 
 class Edit_Product extends StatefulWidget {
@@ -48,7 +49,7 @@ class _Edit_ProductState extends State<Edit_Product> {
     });
 
     try {
-      List<String> imageUrls = [];
+      List<dynamic> imageUrls = widget.product.images;
 
       if (selectedImage != null) {
         for (File imageFile in selectedImage!) {
@@ -92,6 +93,7 @@ class _Edit_ProductState extends State<Edit_Product> {
           .collection("Product")
           .doc(widget.product.id)
           .update(updatedData);
+      Navigator.of(context).popUntil((route) => route.isFirst);
 
       Navigator.pushReplacement(
           context,
@@ -140,7 +142,7 @@ class _Edit_ProductState extends State<Edit_Product> {
       appBar: AppBar(
         title: const Text("Edit_Product"),
         centerTitle: true,
-        backgroundColor: Colors.indigo,
+        backgroundColor: AppColors.lightBlue,
       ),
       body: SingleChildScrollView(
         child: Padding(

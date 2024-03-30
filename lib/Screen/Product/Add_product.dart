@@ -6,6 +6,7 @@ import 'package:uuid/uuid.dart';
 import 'dart:io';
 import 'dart:core';
 
+import '../../Appcolor.dart';
 import '../../Model/Sub-Category-Model.dart';
 import '../../Model/category-model.dart';
 
@@ -92,7 +93,7 @@ class _Add_ProductState extends State<Add_Product> {
         appBar: AppBar(
           title: const Text("Add_Product"),
           centerTitle: true,
-          backgroundColor: Colors.indigo,
+          backgroundColor: AppColors.lightBlue,
         ),
         body: SingleChildScrollView(
           child: Padding(
