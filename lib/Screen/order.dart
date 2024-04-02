@@ -13,7 +13,7 @@ class Order extends StatefulWidget {
 
 class _OrderState extends State<Order> {
   String qty = ""; //dropdown
-  List<String> options = ["pending", "confirm", "dispatched", "shipped", "5", "6"];
+  List<String> options = ["pending", "confirm", "dispatched", "shipped","Cancel"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,13 @@ class _OrderState extends State<Order> {
               qty=order.orderstatus;
               return ListTile(
                 title: Text('Order ID: ${order.orderid}', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                subtitle: Text('Products: ${order.product_name.join(", ")}', style: TextStyle(fontSize: 16)),
+                subtitle: Column(
+                  children: [
+                    Text('Products: ${order.product_name.join(", ")}', style: TextStyle(fontSize: 16)),
+                    Text('Payment Mode: ${order.Payment_Method}', style: TextStyle(fontSize: 16)),
+                    Text('Product Price: ${order.product_price}', style: TextStyle(fontSize: 16)),
+                  ],
+                ),
                 leading: CircleAvatar(
                   backgroundColor: Colors.blue, // Change leading icon background color
                   child: Text(abc.toString(), style: TextStyle(color: Colors.white)), // Change leading icon text color
@@ -57,6 +63,9 @@ class _OrderState extends State<Order> {
                       if (newValue != null) {
                         qty =newValue;
                         setState(() {});
+                        if(qty=="Cancel"){
+                          FirebaseFirestore.instance.collection("Orders").doc(order.id).delete();
+                        }
                         FirebaseFirestore.instance.collection("Orders").doc(order.id).update(
                             {
                               "orderstatus":qty.toString()
