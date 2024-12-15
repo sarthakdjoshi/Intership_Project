@@ -80,12 +80,18 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-              const ListTile(
+               ListTile(
                 title: Text("Home"),
+                onTap: (){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home(),));
+                },
                 leading: Icon(Icons.home),
               ),
-              const ListTile(
+               ListTile(
                 title: Text("Orders"),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Order(),));
+                },
                 leading: Icon(Icons.shopping_cart),
               ),
               const ListTile(
