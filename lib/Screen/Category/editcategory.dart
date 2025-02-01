@@ -90,11 +90,11 @@ class _Edit_CategoryState extends State<Edit_Category> {
         backgroundColor: AppColors.lightBlue,
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SingleChildScrollView(
-            child: Center(
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -184,8 +184,8 @@ class _Edit_CategoryState extends State<Edit_Category> {
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
